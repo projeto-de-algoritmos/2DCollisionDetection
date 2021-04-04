@@ -15,7 +15,7 @@ namespace Assets
 
     // Window assets
     const std::string   WINDOW_TITLE = "2DCollisionDetection",
-                        WINDOW_ICON_IMAGE_NAME = "balls_logo.png";
+                        WINDOW_ICON_IMAGE_NAME = "assets/balls_logo.png";
     const uint16_t      WINDOW_WIDTH = 720,
                         WINDOW_HEIGHT = 480;
     
