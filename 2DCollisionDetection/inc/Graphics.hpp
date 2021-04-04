@@ -16,7 +16,7 @@ public:
     static void startUp(const char * window_title = Assets::WINDOW_TITLE.c_str(),
                         uint16_t window_width = Assets::WINDOW_WIDTH,
                         uint16_t window_height = Assets::WINDOW_HEIGHT,
-                        const char * icon_path = NULL);
+                        const char * icon_path = Assets::WINDOW_ICON_IMAGE_NAME.c_str());
     static void shutDown();
     static Graphics * getInstance();
 
