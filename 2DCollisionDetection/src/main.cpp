@@ -6,6 +6,7 @@
 #include "SolidImage.hpp"
 #include "SolidText.hpp"
 #include "VisualComponent.hpp"
+#include <SDL2/SDL.h>
 
 int main()
 {
@@ -20,9 +21,23 @@ int main()
     
 #endif
 
-    // Your code here ----
+    // Loop code
 
+    SDL_Event e;
+    bool run = true;
 
+    Graphics * graphics = Graphics::getInstance();
+
+    while (run) {
+        while (SDL_PollEvent(&e) != 0)
+            if (e.type == SDL_QUIT)
+                run = false;
+        
+        graphics->clearScreen();
+        graphics->updateScreen();
+        
+        SDL_Delay(16);
+    }
 
     // ----
 
