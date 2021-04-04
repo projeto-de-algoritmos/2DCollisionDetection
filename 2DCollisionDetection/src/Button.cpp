@@ -2,6 +2,7 @@
 #include "AssetsManager.hpp"
 #include "SolidImage.hpp"
 #include "SolidText.hpp"
+#include "Assets.hpp"
 
 #include <iostream>
 
@@ -22,7 +23,7 @@ Button * Button::newButton( const std::string & button_text,
     text->setRelativeY((button->getHeight() / 2) - (text->getHeight() / 2));
     button->_text = text;
 
-    SolidImage * shade = SolidImage::newSolidImage("button_shade.png", width, height);
+    SolidImage * shade = SolidImage::newSolidImage(Assets::BUTTON_SHADE_NAME, width, height);
     shade->setParent(button);
     shade->setRelativeX(0);
     shade->setRelativeY(0);

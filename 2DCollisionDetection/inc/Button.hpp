@@ -4,6 +4,7 @@
 #include "InteractiveComponent.hpp"
 #include "SolidImage.hpp"
 #include "SolidText.hpp"
+#include "Assets.hpp"
 
 #include <SDL2/SDL.h>
 
@@ -14,8 +15,8 @@ class Button : public InteractiveComponent
 {
 public:
     static Button * newButton(  const std::string & button_text,
-                                const std::string & background_image_name = "button_background.png",
-                                const std::string & font_name = "arial.ttf",
+                                const std::string & background_image_name = Assets::BUTTON_BACKGROUND_IMAGE_NAME,
+                                const std::string & font_name = Assets::BUTTON_FONT_NAME,
                                 const SDL_Color & font_color = {0xFF,0xFF,0,0xFF},
                                 uint8_t font_size = 16,
                                 uint16_t width = 120,

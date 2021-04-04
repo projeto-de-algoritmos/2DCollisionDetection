@@ -5,15 +5,17 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
+#include "Assets.hpp"
+
 #include <stdint.h>
 #include <string>
 
 class Graphics
 {
 public:
-    static void startUp(const char * window_title = "UNTITLED",
-                        uint16_t window_width = 720,
-                        uint16_t window_height = 480,
+    static void startUp(const char * window_title = Assets::WINDOW_TITLE.c_str(),
+                        uint16_t window_width = Assets::WINDOW_WIDTH,
+                        uint16_t window_height = Assets::WINDOW_HEIGHT,
                         const char * icon_path = NULL);
     static void shutDown();
     static Graphics * getInstance();
