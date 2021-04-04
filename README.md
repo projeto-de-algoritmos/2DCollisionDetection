@@ -18,6 +18,24 @@ Adicione 3 ou mais screenshots do projeto em funcionamento.
 ## Instalação 
 **Linguagem**: C++<br>
 **Framework**: SDL2.0<br>
+Necessário instalar
+> SDL2
+>
+> SDL_Image
+>
+> SDL_TTF
+
+### Ubuntu
+```bash
+sudo apt-get install libsdl2-dev
+```
+```bash
+sudo apt-get install libsdl2-image-dev
+```
+```bash
+sudo apt-get install libsdl2-ttf-dev
+```
+
 Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
 
 ## Uso 
