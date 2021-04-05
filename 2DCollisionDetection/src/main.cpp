@@ -2,6 +2,7 @@
 #include "Assets.hpp"
 #include "SolidImage.hpp"
 #include "Ball.hpp"
+#include "CollisionDetection.hpp"
 
 #include <vector>
 #include <iostream>
@@ -29,21 +30,15 @@ int main()
         RunningManager::StartFrame();
         RunningManager::HandleUserInput();
 
-        // Collision code here ----
         for (auto ball : balls) {
             ball->updateBallPosition(RunningManager::PhysicsDeltaTime());
             ball->turnOffBallHighlight();
         }
-        for (auto ball1 : balls) {
-            for (auto ball2 : balls) {
-                if (ball1 == ball2) continue;
-                else if (Ball::ballsAreColliding(ball1, ball2)) {
-                    ball1->turnOnBallHighlight();
-                    ball2->turnOnBallHighlight();
-                }
-            }
-        }
         RunningManager::ResetPhysicsTimer();
+        
+        // Collision code here ----------
+
+        ColDetect::NaiveCollisionDetection(balls);
         // ------
 
         RunningManager::RenderScreen();
