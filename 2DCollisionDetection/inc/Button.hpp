@@ -17,10 +17,10 @@ public:
     static Button * newButton(  const std::string & button_text,
                                 const std::string & background_image_name = Assets::BUTTON_BACKGROUND_IMAGE_NAME,
                                 const std::string & font_name = Assets::BUTTON_FONT_NAME,
-                                const SDL_Color & font_color = {0xFF,0xFF,0,0xFF},
-                                uint8_t font_size = 16,
-                                uint16_t width = 120,
-                                uint16_t height = 50 );
+                                const SDL_Color & font_color = Assets::BUTTON_FONT_COLOR,
+                                uint8_t font_size = Assets::BUTTON_FONT_SIZE,
+                                uint16_t width = Assets::BUTTON_WIDTH,
+                                uint16_t height = Assets::BUTTON_HEIGHT );
 
     void setClickReaction(std::function<void()> call_back_function);
 
