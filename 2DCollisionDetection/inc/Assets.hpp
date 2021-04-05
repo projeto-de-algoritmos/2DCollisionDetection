@@ -28,6 +28,10 @@ namespace Assets
     const std::string   BALL_TEXTURE_NAME = "ball_texture.png",
                         BALL_HIGHLIGHT_NAME = "ball_highlight.png";
     const uint16_t      BALL_RADIUS = 15;
+
+    // Timer assets
+    const double_t      _60_FPS_FRAMETIME = 1.0 / 60.0,
+                        _30_FPS_FRAMETIME = 1.0 / 30.0;
 }
 
 #endif
