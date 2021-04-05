@@ -1,25 +1,49 @@
 #include "RunningManager.hpp"
 #include "Assets.hpp"
 #include "SolidImage.hpp"
+#include "Ball.hpp"
+
+#include <vector>
+#include <iostream>
+#include <ctime>
 
 int main()
 {
     RunningManager::StartDependencies();
-    RunningManager::SetVerboseMode();
+    //RunningManager::SetVerboseMode();
 
-    SolidImage * table = SolidImage::newSolidImage(Assets::TABLE_TEXTURE_NAME, Assets::WINDOW_WIDTH, Assets::WINDOW_HEIGHT);
+    SolidImage::newSolidImage(Assets::TABLE_TEXTURE_NAME, Assets::WINDOW_WIDTH, Assets::WINDOW_HEIGHT);
+
+
+    srand((unsigned)time(0));
+    std::vector<Ball *> balls;
+    for (int i = 0; i < 15; i++)
+        balls.push_back(Ball::newBall(rand() % 720, rand() % 480, rand() % 200 + 100, rand() % 200 + 100));
 
     Button * button = Button::newButton("Sair");
     button->setClickReaction(RunningManager::FinishProgramExecution);
-    button->untie();
+    button->setRelativeX(Assets::WINDOW_WIDTH / 2 - button->getWidth() / 2);
+    button->setRelativeY(Assets::WINDOW_HEIGHT - button->getHeight() - 10);
 
     while (RunningManager::ProgramIsRunning()) {
         RunningManager::StartFrame();
         RunningManager::HandleUserInput();
 
         // Collision code here ----
-
-
+        for (auto ball : balls) {
+            ball->updateBallPosition(RunningManager::PhysicsDeltaTime());
+            ball->turnOffBallHighlight();
+        }
+        for (auto ball1 : balls) {
+            for (auto ball2 : balls) {
+                if (ball1 == ball2) continue;
+                else if (Ball::ballsAreColliding(ball1, ball2)) {
+                    ball1->turnOnBallHighlight();
+                    ball2->turnOnBallHighlight();
+                }
+            }
+        }
+        RunningManager::ResetPhysicsTimer();
         // ------
 
         RunningManager::RenderScreen();

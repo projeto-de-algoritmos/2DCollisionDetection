@@ -8,7 +8,7 @@
 
 #include <string>
 
-class Ball : public VisualComponent
+class Ball
 {
 public:
     // It checks if two balls are colliding
@@ -28,7 +28,7 @@ public:
 
 
     
-    void updateBallPosition(int32_t frame_time);
+    void updateBallPosition(double_t frame_time);
     
     static Ball * newBall(double_t x_coordinate,
                           double_t y_coordinate,
@@ -39,8 +39,8 @@ public:
                           std::string ball_highlight_name = Assets::BALL_HIGHLIGHT_NAME);
 
 private:
-    Ball(double_t ball_radius);
-    virtual ~Ball();
+    Ball();
+    ~Ball();
 
     double_t _ball_radius;
     double_t _x_coordinate;

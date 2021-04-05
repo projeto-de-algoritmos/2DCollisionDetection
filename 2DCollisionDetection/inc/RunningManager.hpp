@@ -12,13 +12,16 @@
 //#include "Ball.hpp"
 #include "Timer.hpp"
 #include "Assets.hpp"
+
 #include <SDL2/SDL.h>
+#include <cmath>
 
 namespace RunningManager
 {
     static Timer timer;
     static SDL_Event event;
     static bool program_running = true;
+    static Timer physics_timer;
 
     void StartFrame();
     void FinishFrame();
@@ -29,6 +32,8 @@ namespace RunningManager
     void SetVerboseMode();
     void ReleaseDependencies();
     void RenderScreen();
+    double_t CurrentFrametime();
+    void ResetPhysicsTimer();
 
     void StartFrame()
     {
@@ -89,6 +94,16 @@ namespace RunningManager
     void RenderScreen()
     {
         VisualComponent::drawComponents();
+    }
+
+    double_t PhysicsDeltaTime()
+    {
+        return physics_timer.getElapsedTime();
+    }
+
+    void ResetPhysicsTimer()
+    {
+        physics_timer.reset();
     }
 }
 
