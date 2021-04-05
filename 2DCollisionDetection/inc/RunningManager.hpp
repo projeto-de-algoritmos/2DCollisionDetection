@@ -9,7 +9,7 @@
 #include "SolidImage.hpp"
 #include "SolidText.hpp"
 #include "VisualComponent.hpp"
-#include "Ball.hpp"
+//#include "Ball.hpp"
 #include "Timer.hpp"
 #include "Assets.hpp"
 #include <SDL2/SDL.h>
@@ -37,12 +37,6 @@ namespace RunningManager
             SDL_Delay(int32_t((Assets::_60_FPS_FRAMETIME - elapsed_time) * 1000.0));
         
         timer.reset();
-        Graphics::getInstance()->clearScreen();
-    }
-
-    void FinishFrame()
-    {
-        Graphics::getInstance()->updateScreen();
     }
 
     void HandleUserInput()
@@ -57,8 +51,8 @@ namespace RunningManager
             else if (event.type == SDL_MOUSEBUTTONUP)
                 InteractiveComponent::processMouseButtonUp({event.button.x, event.button.y});
             // Not necessary
-            // else if (event.type == SDL_MOUSEMOTION)
-            //     InteractiveComponent::processMouseMotion({event.motion.x, event.motion.y});
+            else if (event.type == SDL_MOUSEMOTION)
+                InteractiveComponent::processMouseMotion({event.motion.x, event.motion.y});
         }
     }
 

@@ -6,7 +6,9 @@ int main()
     RunningManager::StartDependencies();
     RunningManager::SetVerboseMode();
 
-    Button::newButton("Sair")->setClickReaction(RunningManager::FinishProgramExecution);
+    Button * button = Button::newButton("Sair");
+    button->setClickReaction(RunningManager::FinishProgramExecution);
+    button->untie();
 
     while (RunningManager::ProgramIsRunning()) {
         RunningManager::StartFrame();
@@ -18,7 +20,6 @@ int main()
         // ------
 
         RunningManager::RenderScreen();
-        RunningManager::FinishFrame();
     }
 
     RunningManager::ReleaseDependencies();
