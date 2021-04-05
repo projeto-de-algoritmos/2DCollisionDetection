@@ -24,6 +24,10 @@ namespace Assets
     const uint16_t      WINDOW_WIDTH = 720,
                         WINDOW_HEIGHT = 480;
     
+    // Ball assets
+    const std::string   BALL_TEXTURE_NAME = "ball_texture.png",
+                        BALL_HIGHLIGHT_NAME = "ball_highlight.png";
+    const uint16_t      BALL_RADIUS = 15;
 }
 
 #endif
