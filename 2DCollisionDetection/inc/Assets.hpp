@@ -32,6 +32,9 @@ namespace Assets
     // Timer assets
     const double_t      _60_FPS_FRAMETIME = 1.0 / 60.0,
                         _30_FPS_FRAMETIME = 1.0 / 30.0;
+
+    // Table assets
+    const std::string   TABLE_TEXTURE_NAME = "table_texture.jpg";
 }
 
 #endif

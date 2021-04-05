@@ -1,10 +1,13 @@
 #include "RunningManager.hpp"
-#include <functional>
+#include "Assets.hpp"
+#include "SolidImage.hpp"
 
 int main()
 {
     RunningManager::StartDependencies();
     RunningManager::SetVerboseMode();
+
+    SolidImage * table = SolidImage::newSolidImage(Assets::TABLE_TEXTURE_NAME, Assets::WINDOW_WIDTH, Assets::WINDOW_HEIGHT);
 
     Button * button = Button::newButton("Sair");
     button->setClickReaction(RunningManager::FinishProgramExecution);
