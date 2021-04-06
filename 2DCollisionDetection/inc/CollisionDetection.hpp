@@ -1,4 +1,4 @@
-#ifndef _COLLSION_DETECTION_HPP_
+#ifndef _COLLISION_DETECTION_HPP_
 #define _COLLISION_DETECTION_HPP_
 
 #include "Ball.hpp"
