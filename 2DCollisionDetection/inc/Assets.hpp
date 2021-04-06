@@ -4,11 +4,17 @@
 #include <string>
 #include <cstdint>
 #include <SDL2/SDL.h>
+#include <functional>
 
 // Every project asset/property should be referenced here
 
 namespace Assets
 {
+    static void checkboxEmptyReaction(bool a)
+    {
+        a = !a;
+    }
+
     // Button assets
     const std::string   BUTTON_FONT_NAME = "arial.ttf",
                         BUTTON_BACKGROUND_IMAGE_NAME = "button_background.png",
@@ -38,7 +44,15 @@ namespace Assets
     const std::string   TABLE_TEXTURE_NAME = "table_texture.jpg";
 
     // Checkbox assets
-    const uint16_t            CHECKBOX_LENGTH = 80;
+    const uint16_t                  CHECKBOX_WIDTH_HEIGHT = 25,
+                                    CHECKBOX_FONT_SIZE = 16;
+    const std::string               CHECKBOX_CHECKED_TEXTURE = "checkbox_checked_texture.png",
+                                    CHECKBOX_CHECKED_HIGHLIGHT = "checkbox_checked_hightlight.png",
+                                    CHECKBOX_UNCHECKED_TEXTURE = "checkbox_unchecked_texture.png",
+                                    CHECKBOX_UNCHECKED_HIGHLIGHT = "checkbox_unchecked_highlight.png",
+                                    CHECKBOX_FONT_NAME = "arial.ttf";
+    const SDL_Color                 CHECKBOX_FONT_COLOR = {0x1, 0x40, 0x11, 0xff};
+    const std::function<void(bool)> CHECKBOX_EMPTY_REACTION = checkboxEmptyReaction;
 }
 
 #endif

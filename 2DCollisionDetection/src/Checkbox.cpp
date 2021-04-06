@@ -1,46 +1,105 @@
 #include "Checkbox.hpp"
+#include "SolidImage.hpp"
+#include "AssetsManager.hpp"
 
-Checkbox * Checkbox::newCheckbox(const std::string & button_texture,
-                           const std::string & button_highlight,
-                           const std::string & button_shadow,
-                           uint16_t button_width,
-                           uint16_t button_height,
-                           const std::string & label,
-                           const std::string & font_name,
-                           uint16_t font_size,
-                           const SDL_Color & font_color)
+Checkbox * Checkbox::newCheckbox(const std::string & label,
+                                const std::string & checked_texture,
+                                const std::string & checked_highlight,
+                                const std::string & unchecked_texture,
+                                const std::string & unchecked_hightlight,
+                                uint16_t width_height,
+                                const std::string & font_name,
+                                uint16_t font_size,
+                                const SDL_Color & font_color,
+                                const std::function<void(bool)> check_reaction)
 {
-    Checkbox * checkbox = new Checkbox();
-    checkbox->_button = Button::newButton("", button_texture, Assets::BUTTON_FONT_NAME, Assets::BUTTON_FONT_COLOR, Assets::BUTTON_FONT_SIZE, Assets::CHECKBOX_LENGTH, Assets::CHECKBOX_LENGTH);
-    checkbox->_label = SolidText::newSolidText(label, font_name, font_size, font_color);
+    Checkbox * checkbutton = new Checkbox(width_height);
+    checkbutton->_checked_texture = SolidImage::newSolidImage(checked_texture, width_height, width_height);
+    checkbutton->_checked_texture->setParent(checkbutton);
+    checkbutton->_checked_texture->setRelativeX(0);
+    checkbutton->_checked_texture->setRelativeY(0);
+    checkbutton->_checked_texture->hide();
 
-    checkbox->_button->setParent(checkbox);
-    checkbox->_label->setParent(checkbox);
+    checkbutton->_checked_highlight = SolidImage::newSolidImage(checked_highlight, width_height, width_height);
+    checkbutton->_checked_highlight->setParent(checkbutton);
+    checkbutton->_checked_highlight->setRelativeX(0);
+    checkbutton->_checked_highlight->setRelativeY(0);
+    checkbutton->_checked_highlight->hide();
 
-    checkbox->_label->setRelativeX(checkbox->_button->getWidth() + 10);
+    checkbutton->_unchecked_texture = SolidImage::newSolidImage(unchecked_texture, width_height, width_height);
+    checkbutton->_unchecked_texture->setParent(checkbutton);
+    checkbutton->_unchecked_texture->setRelativeX(0);
+    checkbutton->_unchecked_texture->setRelativeY(0);
+    checkbutton->_unchecked_texture->show();
 
-    checkbox->hide();
+    checkbutton->_unchecked_highlight = SolidImage::newSolidImage(unchecked_hightlight, width_height, width_height);
+    checkbutton->_unchecked_highlight->setParent(checkbutton);
+    checkbutton->_unchecked_highlight->setRelativeX(0);
+    checkbutton->_unchecked_highlight->setRelativeY(0);
+    checkbutton->_unchecked_highlight->hide();
 
-    return checkbox;
+    checkbutton->_label = SolidText::newSolidText(label, font_name, font_size, font_color);
+    checkbutton->_label->setParent(checkbutton);
+    checkbutton->_label->setRelativeX(width_height + 10);
+    checkbutton->_label->setRelativeY(width_height / 2 - checkbutton->_label->getHeight() / 2);
+
+    checkbutton->_is_checked = false;
+
+    checkbutton->hide();
+
+    return checkbutton;
 }
 
-bool Checkbox::isChecked() const noexcept
+void Checkbox::setCheckReaction(std::function<void(bool)> check_reaction)
 {
-    return _is_checked;
+    _check_reaction = check_reaction;
 }
 
-void Checkbox::setReaction(std::function<void ()> reaction)
+Checkbox::Checkbox(uint16_t width_height):
+InteractiveComponent(width_height, width_height)
 {
-    _button->setClickReaction(reaction);
+
 }
 
-Checkbox::Checkbox():
-VisualComponent(0, 0)
+// Restricted
+Checkbox::Checkbox(Checkbox & cpy):
+InteractiveComponent(0, 0)
 {
 
 }
 
 Checkbox::~Checkbox()
 {
-    
+
+}
+
+void Checkbox::reactToClick(const SDL_Point & cursor_coordinates)
+{
+    _is_checked = !_is_checked;
+    if (_is_checked) {
+        _checked_texture->show();
+        _unchecked_texture->hide();
+        _unchecked_highlight->hide();
+    } else {
+        _checked_highlight->hide();
+        _checked_texture->hide();
+        _unchecked_texture->show();
+    }
+    _check_reaction(_is_checked);
+}
+
+void Checkbox::reactToCursorOverlappingComponent(const SDL_Point & cursor_coordinates)
+{
+    if (_is_checked)
+        _checked_highlight->show();
+    else
+        _unchecked_highlight->show();
+}
+
+void Checkbox::reactToCursorStopedOverlappingComponent(const SDL_Point & cursor_coordinates)
+{
+    if (_is_checked)
+        _checked_highlight->hide();
+    else
+        _unchecked_highlight->hide();
 }

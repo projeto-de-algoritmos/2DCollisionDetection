@@ -3,6 +3,7 @@
 #include "SolidImage.hpp"
 #include "Ball.hpp"
 #include "CollisionDetection.hpp"
+#include "Checkbox.hpp"
 
 #include <vector>
 #include <iostream>
@@ -25,6 +26,10 @@ int main()
     button->setClickReaction(RunningManager::FinishProgramExecution);
     button->setRelativeX(Assets::WINDOW_WIDTH / 2 - button->getWidth() / 2);
     button->setRelativeY(Assets::WINDOW_HEIGHT - button->getHeight() - 10);
+
+    Checkbox * checkbox = Checkbox::newCheckbox("Useless checkbox");
+    checkbox->setRelativeX(10);
+    checkbox->setRelativeY(10);
 
     while (RunningManager::ProgramIsRunning()) {
         RunningManager::StartFrame();
