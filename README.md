@@ -12,7 +12,7 @@
 ## Sobre 
 O objetivo deste projeto é oferecer uma abordagem eficiente para a detecção de colisões no plano 2D. A detecção de colisões no plano 2D pode ser empregada em diversos contextos, tais como física para jogos e interfaces gráficas. Neste projeto em questão, utilizou-se de colisões entre bolas sobre uma mesa de bilhar.
 
-O principal artefato deste projeto pode ser verificado no [arquivo](2DCollsionDetection/inc/CollisionDetection.hpp) que implementa as funções de colisões utilizando de algoritmos pertencentes ao paradigma dividir e conquistar.
+O principal artefato deste projeto pode ser verificado no [arquivo](2DCollisionDetection/inc/CollisionDetection.hpp) que implementa as funções de colisões utilizando de algoritmos pertencentes ao paradigma dividir e conquistar.
 Nota-se que para um sistema com uma quantidade de particulas na ordem de 10^4, a detecção de colisão se torna extremamente lenta e cara para a aplicação ao se utilizar de algoritmos triviais de complexidade O(N²).
 
 ## Screenshots
