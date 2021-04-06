@@ -24,9 +24,17 @@ Adicione 3 ou mais screenshots do projeto em funcionamento.
 **Linguagem**: C++<br>
 **Biblioteca**: SDL 2.0<br>
 
+É necessário ter instalado o compilador GCC, make, SDL2, SDL2_image, SDL2_ttf.
+
 ### Ubuntu ou Debian
 
 No Ubuntu ou Debian, você pode instalar as dependencias deste projeto utilizando os seguintes comandos:
+```bash
+sudo apt-get install g++
+```
+```bash
+make
+```
 ```bash
 sudo apt-get install libsdl2-dev
 ```
@@ -44,7 +52,11 @@ TODO
 Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
 
 ## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+Na pasta _2DCollisionDetection_, rode o seguinte comando:
+
+```bash
+make && make run
+```
 
 ## Outros 
 Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
