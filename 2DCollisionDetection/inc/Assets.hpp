@@ -36,6 +36,9 @@ namespace Assets
 
     // Table assets
     const std::string   TABLE_TEXTURE_NAME = "table_texture.jpg";
+
+    // Checkbox assets
+    const uint16_t            CHECKBOX_LENGTH = 80;
 }
 
 #endif
