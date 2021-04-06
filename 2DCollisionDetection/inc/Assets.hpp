@@ -12,10 +12,11 @@ namespace Assets
     // Button assets
     const std::string   BUTTON_FONT_NAME = "arial.ttf",
                         BUTTON_BACKGROUND_IMAGE_NAME = "button_background.png",
+                        BUTTON_HIGHLIGHT_NAME = "button_highlight.png",
                         BUTTON_SHADE_NAME = "button_shade.png";
-    const SDL_Color     BUTTON_FONT_COLOR = {0xff, 0xff, 0x0, 0xff};
+    const SDL_Color     BUTTON_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
     const uint16_t      BUTTON_FONT_SIZE = 16,
-                        BUTTON_WIDTH = 120,
+                        BUTTON_WIDTH = 150,
                         BUTTON_HEIGHT = 50;
 
     // Window assets
