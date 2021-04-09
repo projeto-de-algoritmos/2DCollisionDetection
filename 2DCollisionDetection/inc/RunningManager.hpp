@@ -23,6 +23,7 @@ namespace RunningManager
     static bool program_running = true;
     static Timer physics_timer;
     static bool physics = false;
+    static bool quad_tree = false;
 
     void StartFrame();
     void FinishFrame();
@@ -37,6 +38,8 @@ namespace RunningManager
     void ResetPhysicsTimer();
     bool PhysicsIsEnabled();
     void SetPhysics(bool enable);
+    bool EfficientAlgorithmIsEnabled();
+    void SetEfficientAlgorithm(bool enable);
 }
 
 #endif

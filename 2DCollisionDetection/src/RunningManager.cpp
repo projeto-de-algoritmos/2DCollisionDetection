@@ -80,3 +80,13 @@ void RunningManager::SetPhysics(bool enable)
 {
     physics = enable;
 }
+
+bool RunningManager::EfficientAlgorithmIsEnabled()
+{
+    return quad_tree;
+}
+
+void RunningManager::SetEfficientAlgorithm(bool enable)
+{
+    quad_tree = enable;
+}

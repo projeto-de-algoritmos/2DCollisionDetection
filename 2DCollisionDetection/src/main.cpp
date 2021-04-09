@@ -27,10 +27,16 @@ int main()
     button->setRelativeX(Assets::WINDOW_WIDTH / 2 - button->getWidth() / 2);
     button->setRelativeY(Assets::WINDOW_HEIGHT - button->getHeight() - 10);
 
-    Checkbox * checkbox = Checkbox::newCheckbox("Habilitar Fisica");
-    checkbox->setRelativeX(10);
-    checkbox->setRelativeY(10);
-    checkbox->setCheckReaction(RunningManager::SetPhysics);
+    Checkbox * physx_checkbox = Checkbox::newCheckbox("Habilitar Fisica");
+    physx_checkbox->setRelativeX(10);
+    physx_checkbox->setRelativeY(10);
+    physx_checkbox->setCheckReaction(RunningManager::SetPhysics);
+
+    Checkbox * quad_tree_checkbox = Checkbox::newCheckbox("Habilitar Quad-Tree");
+    quad_tree_checkbox->setParent(physx_checkbox);
+    quad_tree_checkbox->setRelativeX(0);
+    quad_tree_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 10);
+    quad_tree_checkbox->setCheckReaction(RunningManager::SetEfficientAlgorithm);
 
     while (RunningManager::ProgramIsRunning()) {
         RunningManager::StartFrame();
@@ -42,10 +48,10 @@ int main()
         }
         RunningManager::ResetPhysicsTimer();
         
-        // Collision code here ----------
-
-        ColDetect::NaiveCollisionDetection(balls);
-        // ------
+        if (RunningManager::EfficientAlgorithmIsEnabled())
+            ColDetect::EfficientCollisionDetection(balls, Assets::TABLE_WIDTH, Assets::TABLE_HEIGHT);
+        else
+            ColDetect::NaiveCollisionDetection(balls);
 
         RunningManager::RenderScreen();
     }
