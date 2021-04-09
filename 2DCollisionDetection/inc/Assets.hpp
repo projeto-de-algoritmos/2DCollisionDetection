@@ -55,7 +55,7 @@ namespace Assets
                                     CHECKBOX_UNCHECKED_TEXTURE = "checkbox_unchecked_texture.png",
                                     CHECKBOX_UNCHECKED_HIGHLIGHT = "checkbox_unchecked_highlight.png",
                                     CHECKBOX_FONT_NAME = "arial.ttf";
-    const SDL_Color                 CHECKBOX_FONT_COLOR = {0x1, 0x40, 0x11, 0xff};
+    const SDL_Color                 CHECKBOX_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
     const std::function<void(bool)> CHECKBOX_EMPTY_REACTION = checkboxEmptyReaction;
 }
 
