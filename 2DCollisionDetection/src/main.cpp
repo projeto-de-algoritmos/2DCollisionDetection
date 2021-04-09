@@ -27,9 +27,10 @@ int main()
     button->setRelativeX(Assets::WINDOW_WIDTH / 2 - button->getWidth() / 2);
     button->setRelativeY(Assets::WINDOW_HEIGHT - button->getHeight() - 10);
 
-    Checkbox * checkbox = Checkbox::newCheckbox("Useless checkbox");
+    Checkbox * checkbox = Checkbox::newCheckbox("Habilitar Fisica");
     checkbox->setRelativeX(10);
     checkbox->setRelativeY(10);
+    checkbox->setCheckReaction(RunningManager::SetPhysics);
 
     while (RunningManager::ProgramIsRunning()) {
         RunningManager::StartFrame();
