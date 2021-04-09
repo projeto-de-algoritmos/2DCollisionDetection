@@ -165,7 +165,7 @@ SDL_Texture * Graphics::loadTexture(const std::string & img_path)
 SDL_Texture * Graphics::createTextTexture(TTF_Font * font, const std::string & text, SDL_Color color)
 {
 
-    SDL_Surface * temp_surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Surface * temp_surface = TTF_RenderText_Blended(font, text.c_str(), color);
     if (temp_surface == NULL) {
         std::string msg = "Unable to make solid text render for text \"" + text + "\"";
         throw_ttf_exception(msg.c_str());
