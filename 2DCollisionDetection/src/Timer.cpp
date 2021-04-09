@@ -1,5 +1,6 @@
 #include "Timer.hpp"
 #include <SDL2/SDL.h>
+#include <cfloat>
 
 Timer::Timer():
 _initial_ticks(SDL_GetTicks()),

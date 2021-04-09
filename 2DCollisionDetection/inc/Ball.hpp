@@ -11,12 +11,16 @@
 
 class Ball
 {
+private:
+    static void makePerfectContactBetweenBalls(Ball * ball1, Ball * ball2);
+
 public:
     // It checks if two balls are colliding
     static bool ballsAreColliding(const Ball * ball1, const Ball * ball2);
     
     // Does some collision physics 8)
     static void collideBalls(Ball * ball1, Ball * ball2);
+
     
     // Ball x center coordinate
     double_t getXCoordinate() const noexcept;

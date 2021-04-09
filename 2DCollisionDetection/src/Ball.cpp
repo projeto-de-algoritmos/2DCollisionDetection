@@ -2,6 +2,32 @@
 #include "Assets.hpp"
 #include "SolidImage.hpp"
 
+void Ball::makePerfectContactBetweenBalls(Ball * ball1, Ball * ball2)
+{
+    double_t x1 = ball1->getCenter().x();
+    double_t x2 = ball2->getCenter().x();
+
+    double_t y1 = ball1->getCenter().y();
+    double_t y2 = ball2->getCenter().y();
+
+    double_t vx1 = ball1->getVelocity().x();
+    double_t vx2 = ball2->getVelocity().x();
+
+    double_t vy1 = ball1->getVelocity().y();
+    double_t vy2 = ball2->getVelocity().y();
+
+    double_t r = ball1->getRadius() + ball2->getRadius();
+
+    double_t a = (vx1 * vx1) - (2 * vx1 * vx2) + (vx2 * vx2) + (vy1 * vy1) - (2 * vy1 * vy2) + (vy2 * vy2);
+    double_t b = 2 * (x1 * vx1 - x1 * vx2 - x2 * vx1 + x2 * vx2 + y1 * vy1 - y1 * vy2 - y2 * vy1 + y2 * vy2);
+    double_t c = (x1*x1) - (2 * x1 * x2) + (x2 * x2) + (y1 * y1) - (2 * y1 * y2) + (y2 * y2) - (r*r);
+
+    double_t delta = sqrt(b*b - (4 * a * c));
+    double_t rollback_delta_time = ((-b) - delta) / (2*a);
+    ball1->setCenter(ball1->getCenter() + ball1->getVelocity() * rollback_delta_time);
+    ball2->setCenter(ball2->getCenter() + ball2->getVelocity() * rollback_delta_time);
+}
+
 bool Ball::ballsAreColliding(const Ball * ball1, const Ball * ball2)
 {
     double_t x1 = ball1->getXCoordinate();
@@ -19,6 +45,8 @@ void Ball::collideBalls(Ball * ball1, Ball * ball2)
 {
     if (!ballsAreColliding(ball1, ball2))
         return;
+
+    makePerfectContactBetweenBalls(ball1, ball2);
     
     Vector2D b1c = ball1->getCenter();
     Vector2D b2c = ball2->getCenter();
