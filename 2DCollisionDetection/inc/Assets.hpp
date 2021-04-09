@@ -48,7 +48,7 @@ namespace Assets
     const std::string   TABLE_TEXTURE_NAME = "table_texture.jpg";
 
     // Checkbox assets
-    const uint16_t                  CHECKBOX_WIDTH_HEIGHT = 25,
+    const uint16_t                  CHECKBOX_WIDTH_HEIGHT = 35,
                                     CHECKBOX_FONT_SIZE = 16;
     const std::string               CHECKBOX_CHECKED_TEXTURE = "checkbox_checked_texture.png",
                                     CHECKBOX_CHECKED_HIGHLIGHT = "checkbox_checked_hightlight.png",
@@ -60,13 +60,13 @@ namespace Assets
 
     // Dynamic Text Assets
     const std::string   DYNAMICTEXT_FONT_NAME = "arial.ttf";
-    const SDL_Color     DYNAMICTEXT_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
+    const SDL_Color     DYNAMICTEXT_FONT_COLOR = {100,100, 0x0, 0xff};
     const uint16_t      DYNAMICTEXT_FONT_SIZE = 13;
 
     // SolidText Assets
     const std::string   SOLIDTEXT_FONT_NAME = "arial.ttf";
     const uint8_t       SOLIDTEXT_FONT_SIZE = 16;
-    const SDL_Color     SOLIDTEXT_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
+    const SDL_Color     SOLIDTEXT_FONT_COLOR = {0x3c, 0x66, 0x57, 0xff};
 }
 
 #endif
