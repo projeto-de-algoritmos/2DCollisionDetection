@@ -26,6 +26,10 @@ public:
     double_t getXCoordinate() const noexcept;
     // Ball y center coordinate
     double_t getYCoordinate() const noexcept;
+    // Ball velocity x
+    double_t getXVelocity() const noexcept;
+    // Ball velocity y
+    double_t getYVelocity() const noexcept;
     // Ball Radius
     double_t getRadius() const noexcept;
 

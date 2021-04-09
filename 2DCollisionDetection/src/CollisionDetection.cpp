@@ -1,7 +1,7 @@
 #include "CollisionDetection.hpp"
 #include "RunningManager.hpp"
 
-void ColDetect::EfficientCollisionDetection(std::vector<Ball *> balls, int32_t table_width, int32_t table_height)
+void ColDetect::EfficientCollisionDetection(const std::vector<Ball *> & balls, int32_t table_width, int32_t table_height)
 {
     // TODO
     // Detectar colisões entre as bolas presentes no vetor balls usando o algormto quad-tree
@@ -9,7 +9,7 @@ void ColDetect::EfficientCollisionDetection(std::vector<Ball *> balls, int32_t t
     // e se a fisica estiver ativada, aplicar entre as duas bolas
 }
 
-void ColDetect::NaiveCollisionDetection(std::vector<Ball *> balls) {
+void ColDetect::NaiveCollisionDetection(const std::vector<Ball *> & balls) {
     // Algoritmo ingenuo O(N^2)
     for (int i = 0; i < (int) balls.size(); i++) {
         for (int j = i+1; j < (int) balls.size(); j++) {

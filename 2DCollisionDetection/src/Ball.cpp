@@ -4,17 +4,17 @@
 
 void Ball::makePerfectContactBetweenBalls(Ball * ball1, Ball * ball2)
 {
-    double_t x1 = ball1->getCenter().x();
-    double_t x2 = ball2->getCenter().x();
+    double_t x1 = ball1->getXCoordinate();
+    double_t x2 = ball2->getXCoordinate();
 
-    double_t y1 = ball1->getCenter().y();
-    double_t y2 = ball2->getCenter().y();
+    double_t y1 = ball1->getYCoordinate();
+    double_t y2 = ball2->getYCoordinate();
 
-    double_t vx1 = ball1->getVelocity().x();
-    double_t vx2 = ball2->getVelocity().x();
+    double_t vx1 = ball1->getXVelocity();
+    double_t vx2 = ball2->getXVelocity();
 
-    double_t vy1 = ball1->getVelocity().y();
-    double_t vy2 = ball2->getVelocity().y();
+    double_t vy1 = ball1->getYVelocity();
+    double_t vy2 = ball2->getYVelocity();
 
     double_t r = ball1->getRadius() + ball2->getRadius();
 
@@ -81,6 +81,16 @@ double_t Ball::getXCoordinate() const noexcept
 double_t Ball::getYCoordinate() const noexcept
 {
     return _center.y();
+}
+
+double_t Ball::getXVelocity() const noexcept
+{
+    return _velocity.x();
+}
+
+double_t Ball::getYVelocity() const noexcept
+{
+    return _velocity.y();
 }
 
 double_t Ball::getRadius() const noexcept
