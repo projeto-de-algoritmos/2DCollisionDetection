@@ -15,19 +15,69 @@ bool Ball::ballsAreColliding(const Ball * ball1, const Ball * ball2)
     return distance <= (ball1->getRadius() + ball2->getRadius()) * (ball1->getRadius() + ball2->getRadius());
 }
 
+void Ball::collideBalls(Ball * ball1, Ball * ball2)
+{
+    if (!ballsAreColliding(ball1, ball2))
+        return;
+    
+    Vector2D b1c = ball1->getCenter();
+    Vector2D b2c = ball2->getCenter();
+
+    Vector2D un(b2c.x() - b1c.x(), b2c.y() - b1c.y());
+    un = un * (1/un.magnitude());
+    Vector2D ut(-un.y(), un.x());
+
+    double_t v1n = un.innerProduct(ball1->getVelocity());
+    double_t v1t = ut.innerProduct(ball1->getVelocity());
+    double_t v2n = un.innerProduct(ball2->getVelocity());
+    double_t v2t = ut.innerProduct(ball2->getVelocity());
+
+    double_t v1n_ = v2n;
+    double_t v2n_ = v1n;
+    double_t v1t_ = v1t;
+    double_t v2t_ = v2t;
+
+    Vector2D vel1n(un * v1n_);
+    Vector2D vel1t(ut * v1t_);
+    Vector2D vel2n(un * v2n_);
+    Vector2D vel2t(ut * v2t_);
+    ball1->setVelocity(vel1n + vel1t);
+    ball2->setVelocity(vel2n + vel2t);
+}
+
 double_t Ball::getXCoordinate() const noexcept
 {
-    return _x_coordinate;
+    return _center.x();
 }
 
 double_t Ball::getYCoordinate() const noexcept
 {
-    return _y_coordinate;
+    return _center.y();
 }
 
 double_t Ball::getRadius() const noexcept
 {
     return _ball_radius;
+}
+
+Vector2D Ball::getCenter() const noexcept
+{
+    return _center;
+}
+
+void Ball::setCenter(const Vector2D & center) noexcept
+{
+    _center = center;
+}
+
+Vector2D Ball::getVelocity() const noexcept
+{
+    return _velocity;
+}
+
+void Ball::setVelocity(const Vector2D & velocity) noexcept
+{
+    _velocity = velocity;
 }
 
 void Ball::turnOnBallHighlight()
@@ -42,29 +92,29 @@ void Ball::turnOffBallHighlight()
 
 void Ball::updateBallPosition(double_t frame_time)
 {
-    _x_coordinate += _x_velocity * frame_time;
-    _y_coordinate += _y_velocity * frame_time;
+    _center.x(_center.x() + _velocity.x() * frame_time);
+    _center.y(_center.y() + _velocity.y() * frame_time);
 
-    if (_x_coordinate - _ball_radius < 0.0) {
-        _x_coordinate = _ball_radius;
-        _x_velocity = -_x_velocity;
+    if (_center.x() - _ball_radius < 0.0) {
+        _center.x(_ball_radius);
+        _velocity.x(-_velocity.x());
     }
-    else if (_x_coordinate + _ball_radius > double_t(Assets::WINDOW_WIDTH)) {
-        _x_coordinate = double_t(Assets::WINDOW_WIDTH) - _ball_radius;
-        _x_velocity = -_x_velocity;
-    }
-
-    if (_y_coordinate - _ball_radius < 0.0) {
-        _y_coordinate = _ball_radius;
-        _y_velocity = -_y_velocity;
-    }
-    else if (_y_coordinate + _ball_radius > double_t(Assets::WINDOW_HEIGHT)) {
-        _y_coordinate = double_t(Assets::WINDOW_HEIGHT) - _ball_radius;
-        _y_velocity = -_y_velocity;
+    else if (_center.x() + _ball_radius > double_t(Assets::TABLE_WIDTH)) {
+        _center.x(double_t(Assets::TABLE_WIDTH) - _ball_radius);
+        _velocity.x(-_velocity.x());
     }
 
-    _ball_texture->setGlobalX(_x_coordinate - _ball_radius);
-    _ball_texture->setGlobalY(_y_coordinate - _ball_radius);
+    if (_center.y() - _ball_radius < 0.0) {
+        _center.y(_ball_radius);
+        _velocity.y(-_velocity.y());
+    }
+    else if (_center.y() + _ball_radius > double_t(Assets::TABLE_HEIGHT)) {
+        _center.y(double_t(Assets::TABLE_HEIGHT) - _ball_radius);
+        _velocity.y(-_velocity.y());
+    }
+
+    _ball_texture->setRelativeX(_center.x() - _ball_radius);
+    _ball_texture->setGlobalY(_center.y() - _ball_radius);
 }
 
 Ball * Ball::newBall(double_t x_coordinate,
@@ -76,10 +126,8 @@ Ball * Ball::newBall(double_t x_coordinate,
                      std::string ball_highlight_name)
 {
     Ball * ball = new Ball();
-    ball->_x_velocity = x_velocity;
-    ball->_y_velocity = y_velocity;
-    ball->_x_coordinate = x_coordinate;
-    ball->_y_coordinate = y_coordinate;
+    ball->_velocity = Vector2D(x_velocity, y_velocity);
+    ball->_center = Vector2D(x_coordinate, y_coordinate);
     ball->_ball_radius = ball_radius;
 
     ball->_ball_texture = SolidImage::newSolidImage(ball_texture_name, 2*ball_radius, 2*ball_radius);

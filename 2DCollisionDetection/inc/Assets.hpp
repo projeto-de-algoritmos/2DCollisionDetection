@@ -36,6 +36,10 @@ namespace Assets
                         BALL_HIGHLIGHT_NAME = "ball_highlight.png";
     const uint16_t      BALL_RADIUS = 15;
 
+    // Table / Ball Assets
+    const uint16_t      TABLE_WIDTH = WINDOW_WIDTH,
+                        TABLE_HEIGHT = WINDOW_HEIGHT;
+
     // Timer assets
     const double_t      _60_FPS_FRAMETIME = 1.0 / 60.0,
                         _30_FPS_FRAMETIME = 1.0 / 30.0;
