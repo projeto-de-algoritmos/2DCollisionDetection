@@ -39,12 +39,16 @@ int main()
     quad_tree_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 10);
     quad_tree_checkbox->setCheckReaction(RunningManager::SetEfficientAlgorithm);
 
+    SolidImage * top_border = SolidImage::newSolidImage("top_border.png", 206, 60);
+    top_border->setRelativeX(Assets::WINDOW_WIDTH / 2 - top_border->getWidth() / 2);
+
     DynamicText * fps_counter = DynamicText::newDynamicText("00");
     fps_counter->setRelativeX(Assets::TABLE_WIDTH - fps_counter->getWidth() - 10);
     fps_counter->setRelativeY(10);
 
     SolidText * query_label = SolidText::newSolidText("Queries por frame:");
-    query_label->setRelativeX(Assets::TABLE_WIDTH / 2 - query_label->getWidth() / 2);
+    query_label->setParent(top_border);
+    query_label->setRelativeX(top_border->getWidth() / 2 - query_label->getWidth() / 2);
 
     DynamicText * query_counter = DynamicText::newDynamicText("000");
     query_counter->setParent(query_label);
