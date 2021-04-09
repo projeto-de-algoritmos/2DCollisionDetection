@@ -21,9 +21,9 @@ namespace Assets
                         BUTTON_HIGHLIGHT_NAME = "button_highlight.png",
                         BUTTON_SHADE_NAME = "button_shade.png";
     const SDL_Color     BUTTON_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
-    const uint16_t      BUTTON_FONT_SIZE = 16,
-                        BUTTON_WIDTH = 150,
-                        BUTTON_HEIGHT = 50;
+    const uint16_t      BUTTON_FONT_SIZE = 14,
+                        BUTTON_WIDTH = 120,
+                        BUTTON_HEIGHT = 42;
 
     // Window assets
     const std::string   WINDOW_TITLE = "2DCollisionDetection",
@@ -49,24 +49,24 @@ namespace Assets
 
     // Checkbox assets
     const uint16_t                  CHECKBOX_WIDTH_HEIGHT = 35,
-                                    CHECKBOX_FONT_SIZE = 16;
+                                    CHECKBOX_FONT_SIZE = 12;
     const std::string               CHECKBOX_CHECKED_TEXTURE = "checkbox_checked_texture.png",
                                     CHECKBOX_CHECKED_HIGHLIGHT = "checkbox_checked_hightlight.png",
                                     CHECKBOX_UNCHECKED_TEXTURE = "checkbox_unchecked_texture.png",
                                     CHECKBOX_UNCHECKED_HIGHLIGHT = "checkbox_unchecked_highlight.png",
                                     CHECKBOX_FONT_NAME = "arial.ttf";
-    const SDL_Color                 CHECKBOX_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
+    const SDL_Color                 CHECKBOX_FONT_COLOR = {0x1f, 0x1f, 0x1f, 0xff};
     const std::function<void(bool)> CHECKBOX_EMPTY_REACTION = checkboxEmptyReaction;
 
     // Dynamic Text Assets
     const std::string   DYNAMICTEXT_FONT_NAME = "arial.ttf";
-    const SDL_Color     DYNAMICTEXT_FONT_COLOR = {100,100, 0x0, 0xff};
+    const SDL_Color     DYNAMICTEXT_FONT_COLOR = {0x1f, 0x1f, 0x1f, 0xff};
     const uint16_t      DYNAMICTEXT_FONT_SIZE = 13;
 
     // SolidText Assets
     const std::string   SOLIDTEXT_FONT_NAME = "arial.ttf";
-    const uint8_t       SOLIDTEXT_FONT_SIZE = 16;
-    const SDL_Color     SOLIDTEXT_FONT_COLOR = {0x3c, 0x66, 0x57, 0xff};
+    const uint8_t       SOLIDTEXT_FONT_SIZE = 14;
+    const SDL_Color     SOLIDTEXT_FONT_COLOR = {0x1f, 0x1f, 0x1f, 0xff};
 }
 
 #endif
