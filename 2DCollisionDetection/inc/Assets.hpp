@@ -62,6 +62,11 @@ namespace Assets
     const std::string   DYNAMICTEXT_FONT_NAME = "arial.ttf";
     const SDL_Color     DYNAMICTEXT_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
     const uint16_t      DYNAMICTEXT_FONT_SIZE = 13;
+
+    // SolidText Assets
+    const std::string   SOLIDTEXT_FONT_NAME = "arial.ttf";
+    const uint8_t       SOLIDTEXT_FONT_SIZE = 16;
+    const SDL_Color     SOLIDTEXT_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
 }
 
 #endif

@@ -1,4 +1,5 @@
 #include "RunningManager.hpp"
+#include <iostream>
 
 void RunningManager::StartFrame()
 {
@@ -7,6 +8,11 @@ void RunningManager::StartFrame()
         SDL_Delay(int32_t((Assets::_60_FPS_FRAMETIME - elapsed_time) * 1000.0));
     
     timer.reset();
+}
+
+void RunningManager::FinishFrame()
+{
+    frames_performed++;
 }
 
 void RunningManager::HandleUserInput()
@@ -89,4 +95,34 @@ bool RunningManager::EfficientAlgorithmIsEnabled()
 void RunningManager::SetEfficientAlgorithm(bool enable)
 {
     quad_tree = enable;
+}
+
+void RunningManager::IncrementOperationsPerfomed()
+{
+    operations_perfomed++;
+}
+
+void RunningManager::UpdateStatistics()
+{
+    //std::cout << "sta timer: " << statistics_timer.getElapsedTime() << "\n";
+    if (statistics_timer.getElapsedTime() < statistics_window_time)
+        return;
+    
+    mean_operations_performed = double_t(operations_perfomed) / double_t(frames_performed);
+    mean_fps = double_t(frames_performed) / statistics_timer.getElapsedTime();
+    frames_performed = 0;
+    operations_perfomed = 0;
+    statistics_timer.reset();
+}
+
+double_t RunningManager::MeanOperationsPerFrame()
+{
+    UpdateStatistics();
+    return mean_operations_performed;
+}
+
+double_t RunningManager::MeanFramesPerSecond()
+{
+    UpdateStatistics();
+    return mean_fps;
 }

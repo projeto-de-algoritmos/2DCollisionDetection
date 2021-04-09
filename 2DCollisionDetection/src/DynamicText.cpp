@@ -16,6 +16,11 @@ DynamicText * DynamicText::newDynamicText(const std::string & text,
 
 void DynamicText::setText(const std::string & text)
 {
+    if (text == _text)
+        return;
+
+    _text = text;
+
     while (_chars.size() < text.size()) {
         _chars.push_back(SolidText::newSolidText("_", _font_name, _font_size, _font_color));
 

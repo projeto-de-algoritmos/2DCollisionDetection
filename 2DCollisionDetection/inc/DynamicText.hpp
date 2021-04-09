@@ -30,6 +30,7 @@ private:
     DynamicText(DynamicText &);
     virtual ~DynamicText();
 
+    std::string _text;
     SDL_Color _font_color;
     uint16_t _font_size;
     std::string _font_name;

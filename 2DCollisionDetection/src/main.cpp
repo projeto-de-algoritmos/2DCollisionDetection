@@ -39,9 +39,17 @@ int main()
     quad_tree_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 10);
     quad_tree_checkbox->setCheckReaction(RunningManager::SetEfficientAlgorithm);
 
-    DynamicText * dt = DynamicText::newDynamicText("Useless dynamic text", "arial.ttf");
-    dt->setRelativeX(Assets::TABLE_WIDTH / 2 - dt->getWidth() / 2);
-    dt->setRelativeY(10);
+    DynamicText * fps_counter = DynamicText::newDynamicText("00");
+    fps_counter->setRelativeX(Assets::TABLE_WIDTH - fps_counter->getWidth() - 10);
+    fps_counter->setRelativeY(10);
+
+    SolidText * query_label = SolidText::newSolidText("Queries por frame:");
+    query_label->setRelativeX(Assets::TABLE_WIDTH / 2 - query_label->getWidth() / 2);
+
+    DynamicText * query_counter = DynamicText::newDynamicText("000");
+    query_counter->setParent(query_label);
+    query_counter->setRelativeX(query_label->getWidth() / 2 - query_counter->getWidth() / 2);
+    query_counter->setRelativeY(query_label->getHeight() + 5);
 
     while (RunningManager::ProgramIsRunning()) {
         RunningManager::StartFrame();
@@ -58,7 +66,11 @@ int main()
         else
             ColDetect::NaiveCollisionDetection(balls);
 
+        fps_counter->setText(std::to_string(int32_t(RunningManager::MeanFramesPerSecond())));
+        query_counter->setText(std::to_string(int32_t(RunningManager::MeanOperationsPerFrame())));
+
         RunningManager::RenderScreen();
+        RunningManager::FinishFrame();
     }
 
     RunningManager::ReleaseDependencies();

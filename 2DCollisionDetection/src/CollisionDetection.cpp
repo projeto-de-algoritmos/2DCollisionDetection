@@ -7,6 +7,8 @@ void ColDetect::EfficientCollisionDetection(const std::vector<Ball *> & balls, i
     // Detectar colisões entre as bolas presentes no vetor balls usando o algormto quad-tree
     // Se duas bolas estiver se colidindo, ativar o brilho de ambas: ball->turnOnBallHighlight()
     // e se a fisica estiver ativada, aplicar entre as duas bolas
+    // Toda vez q for necessario fazer uma query sobre uma bola, sinalizar ao gerente de programa
+    // que esta query foi realizada com RunningManager::IncrementOperationsPerformed()
 }
 
 void ColDetect::NaiveCollisionDetection(const std::vector<Ball *> & balls) {
@@ -14,6 +16,8 @@ void ColDetect::NaiveCollisionDetection(const std::vector<Ball *> & balls) {
     for (int i = 0; i < (int) balls.size(); i++) {
         for (int j = i+1; j < (int) balls.size(); j++) {
 
+            // Sinaliza mais uma query sobre uma bola
+            RunningManager::IncrementOperationsPerfomed();
             if (Ball::ballsAreColliding(balls[i], balls[j])) {
                 
                 // Ativa o brilho de ambas as bolas
