@@ -57,6 +57,11 @@ namespace Assets
                                     CHECKBOX_FONT_NAME = "arial.ttf";
     const SDL_Color                 CHECKBOX_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
     const std::function<void(bool)> CHECKBOX_EMPTY_REACTION = checkboxEmptyReaction;
+
+    // Dynamic Text Assets
+    const std::string   DYNAMICTEXT_FONT_NAME = "arial.ttf";
+    const SDL_Color     DYNAMICTEXT_FONT_COLOR = {0xff, 0xff, 0xff, 0xff};
+    const uint16_t      DYNAMICTEXT_FONT_SIZE = 13;
 }
 
 #endif

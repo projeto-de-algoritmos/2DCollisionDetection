@@ -4,6 +4,7 @@
 #include "Ball.hpp"
 #include "CollisionDetection.hpp"
 #include "Checkbox.hpp"
+#include "DynamicText.hpp"
 
 #include <vector>
 #include <iostream>
@@ -37,6 +38,10 @@ int main()
     quad_tree_checkbox->setRelativeX(0);
     quad_tree_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 10);
     quad_tree_checkbox->setCheckReaction(RunningManager::SetEfficientAlgorithm);
+
+    DynamicText * dt = DynamicText::newDynamicText("Useless dynamic text", "arial.ttf");
+    dt->setRelativeX(Assets::TABLE_WIDTH / 2 - dt->getWidth() / 2);
+    dt->setRelativeY(10);
 
     while (RunningManager::ProgramIsRunning()) {
         RunningManager::StartFrame();
