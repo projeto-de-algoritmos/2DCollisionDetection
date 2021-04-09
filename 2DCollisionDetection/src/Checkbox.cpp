@@ -46,6 +46,7 @@ Checkbox * Checkbox::newCheckbox(const std::string & label,
     checkbutton->_is_checked = false;
 
     checkbutton->hide();
+    checkbutton->tie();
 
     return checkbutton;
 }
