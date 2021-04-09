@@ -45,7 +45,7 @@ namespace Assets
                         _30_FPS_FRAMETIME = 1.0 / 30.0;
 
     // Table assets
-    const std::string   TABLE_TEXTURE_NAME = "table_texture.jpg";
+    const std::string   TABLE_TEXTURE_NAME = "table_texture.png";
 
     // Checkbox assets
     const uint16_t                  CHECKBOX_WIDTH_HEIGHT = 35,
