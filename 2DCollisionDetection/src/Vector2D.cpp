@@ -22,6 +22,13 @@ _y(v.y())
 
 }
 
+Vector2D::Vector2D(const Vector2D & origin, const Vector2D & arrow):
+_x(arrow.x() - origin.x()),
+_y(arrow.y() - origin.y())
+{
+    
+}
+
 double Vector2D::x() const noexcept
 {
     return _x;
@@ -79,4 +86,14 @@ Vector2D Vector2D::operator+(const Vector2D & v) const noexcept
 Vector2D Vector2D::operator+(const Vector2D && v) const noexcept
 {
     return Vector2D(x() + v.x(), y() + v.y());
+}
+
+Vector2D Vector2D::operator-(const Vector2D & v) const noexcept
+{
+    return Vector2D(x() - v.x(), y() - v.y());
+}
+
+Vector2D Vector2D::operator-(const Vector2D && v) const noexcept
+{
+    return Vector2D(x() - v.x(), y() - v.y());
 }
