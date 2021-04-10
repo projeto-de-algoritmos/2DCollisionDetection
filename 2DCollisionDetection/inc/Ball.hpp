@@ -39,7 +39,9 @@ public:
     Vector2D getVelocity() const noexcept;
     void setVelocity(const Vector2D & velocity) noexcept;
 
-    // :O
+    void hide();
+
+    void show();
 
     // It makes ball shine
     void turnOnBallHighlight();

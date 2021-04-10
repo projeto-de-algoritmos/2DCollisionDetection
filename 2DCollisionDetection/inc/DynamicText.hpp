@@ -22,6 +22,9 @@ public:
     uint16_t getWidth() const noexcept;
     uint16_t getHeight() const noexcept;
 
+    void hide();
+    void show();
+
 private:
     DynamicText(const std::string & font_name = "",
                 uint16_t font_size = 0,

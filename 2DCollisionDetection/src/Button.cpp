@@ -61,6 +61,22 @@ void Button::setHeight(uint16_t height)
     _text->setRelativeY((height / 2) - (_text->getHeight() / 2));
 }
 
+void Button::hide()
+{
+    VisualComponent::hide();
+    _highlight->hide();
+    _shade->hide();
+    _text->hide();
+}
+
+void Button::show()
+{
+    VisualComponent::show();
+    _highlight->hide();
+    _shade->hide();
+    _text->show();
+}
+
 Button::Button(uint16_t width, uint16_t height, SDL_Texture * texture):
 InteractiveComponent(width, height, {0xFF, 0xFF, 0xFF, 0xFF}, texture)
 {

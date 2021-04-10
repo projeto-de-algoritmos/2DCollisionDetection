@@ -1,4 +1,5 @@
 #include "RunningManager.hpp"
+#include "CollisionDetection.hpp"
 #include <iostream>
 
 void RunningManager::StartFrame()
@@ -125,4 +126,280 @@ double_t RunningManager::MeanFramesPerSecond()
 {
     UpdateStatistics();
     return mean_fps;
+}
+
+void RunningManager::UpdateBallsPosition()
+{
+    for (auto ball : balls) {
+        ball->updateBallPosition(RunningManager::PhysicsDeltaTime());
+        ball->turnOffBallHighlight();
+    }
+    RunningManager::ResetPhysicsTimer();
+}
+
+void RunningManager::InitializeUIElments()
+{
+    menu_background = SolidImage::newSolidImage(Assets::MAIN_MENU_BACKGROUND, Assets::WINDOW_WIDTH, Assets::WINDOW_HEIGHT);
+    
+    start_button = Button::newButton("Iniciar");
+    start_button->setClickReaction(StartSimulation);
+    start_button->setRelativeX(Assets::WINDOW_WIDTH / 2 + 5);
+    start_button->setRelativeY(Assets::WINDOW_HEIGHT - start_button->getHeight() - 10);
+
+    table_background = SolidImage::newSolidImage(Assets::TABLE_TEXTURE_NAME, Assets::TABLE_WIDTH, Assets::TABLE_HEIGHT);
+    table_background->hide();
+
+    srand((unsigned)time(0));
+    for (int i = 0; i < 15; i++) {
+        balls.push_back(Ball::newBall(rand() % 720, rand() % 480, rand() % 200 + 100, rand() % 200 + 100));
+        balls.back()->hide();
+    }
+
+    top_border = SolidImage::newSolidImage("top_border.png", 200, 60);
+    top_border->setRelativeX(Assets::WINDOW_WIDTH / 2 - top_border->getWidth() / 2);
+    top_border->setRelativeY(0);
+    top_border->hide();
+
+    // Simulation Options
+    options_background = SolidImage::newSolidImage(Assets::OPTIONS_BACKGROUND_NAME, Assets::OPTIONS_WIDTH, Assets::OPTIONS_HEIGHT);
+    options_background->setRelativeX(Assets::WINDOW_WIDTH / 2 - options_background->getWidth() / 2);
+    options_background->setRelativeY(0);
+    options_background->hide();
+
+    options_label = SolidText::newSolidText("Opcoes", Assets::SOLIDTEXT_FONT_NAME, 24);
+    options_label->hide();
+
+    options_icon = SolidImage::newSolidImage(Assets::OPTIONS_ICON_NAME, Assets::OPTIONS_ICON_WIDTH, Assets::OPTIONS_ICON_HEIGHT);
+    options_icon->setParent(options_background);
+    options_icon->setRelativeX(options_background->getWidth() / 2 - (options_icon->getWidth() + options_label->getWidth()) / 2 - 5);
+    options_icon->setRelativeY(10);
+    options_icon->hide();
+
+    options_label->setParent(options_icon);
+    options_label->setRelativeX(options_icon->getWidth() + 5);
+    options_label->setRelativeY(options_icon->getHeight() / 2 - options_label->getHeight() / 2);
+
+    open_options = Button::newButton("Opcoes");
+    open_options->setClickReaction(RunningManager::OpenSimulationOptions);
+    open_options->setRelativeX(Assets::WINDOW_WIDTH / 2 + 5);
+    open_options->setRelativeY(Assets::WINDOW_HEIGHT - open_options->getHeight() - 10);
+    open_options->hide();
+    open_options->deactivate();
+
+    collisions_options_label = SolidText::newSolidText("Colisao:");
+    collisions_options_label->setParent(options_icon);
+    collisions_options_label->setRelativeX(0);
+    collisions_options_label->setRelativeY(options_icon->getHeight() + 3);
+    collisions_options_label->hide();
+
+    physx_checkbox = Checkbox::newCheckbox("Habilitar Fisica");
+    physx_checkbox->setParent(collisions_options_label);
+    physx_checkbox->setRelativeX(0);
+    physx_checkbox->setRelativeY(collisions_options_label->getHeight() + 3);
+    physx_checkbox->setCheckReaction(RunningManager::SetPhysics);
+    physx_checkbox->hide();
+    physx_checkbox->deactivate();
+
+    quad_tree_checkbox = Checkbox::newCheckbox("Habilitar Quad-Tree");
+    quad_tree_checkbox->setParent(physx_checkbox);
+    quad_tree_checkbox->setRelativeX(0);
+    quad_tree_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 3);
+    quad_tree_checkbox->setCheckReaction(RunningManager::SetEfficientAlgorithm);
+    quad_tree_checkbox->hide();
+    quad_tree_checkbox->deactivate();
+
+    speed_options_label = SolidText::newSolidText("Velocidade");
+    speed_options_label->setParent(quad_tree_checkbox);
+    speed_options_label->setRelativeX(0);
+    speed_options_label->setRelativeY(quad_tree_checkbox->getHeight() + 10);
+    speed_options_label->hide();
+
+    _025x_speed = Checkbox::newCheckbox("0.25x");
+    _025x_speed->setParent(speed_options_label);
+    _025x_speed->setRelativeX(0);
+    _025x_speed->setRelativeY(speed_options_label->getHeight() + 3);
+    _025x_speed->hide();
+    _025x_speed->deactivate();
+    _025x_speed->setCheckReaction(RunningManager::Set025xSpeed);
+
+    _1x_speed = Checkbox::newCheckbox("1.0x");
+    _1x_speed->setParent(_025x_speed);
+    _1x_speed->setRelativeX(0);
+    _1x_speed->setRelativeY(_025x_speed->getHeight() + 3);
+    _1x_speed->hide();
+    _1x_speed->deactivate();
+    _1x_speed->setCheckReaction(RunningManager::Set1xSpeed);
+
+    _2x_speed = Checkbox::newCheckbox("2.0x");
+    _2x_speed->setParent(_1x_speed);
+    _2x_speed->setRelativeX(0);
+    _2x_speed->setRelativeY(_1x_speed->getHeight() + 3);
+    _2x_speed->hide();
+    _2x_speed->deactivate();
+    _2x_speed->setCheckReaction(RunningManager::Set2xSpeed);
+
+    close_options = Button::newButton("Fechar");
+    close_options->setClickReaction(RunningManager::CloseSimulationOptions);
+    close_options->setParent(_2x_speed);
+    close_options->setGlobalX(Assets::WINDOW_WIDTH / 2 - close_options->getWidth() / 2);
+    close_options->setRelativeY(_2x_speed->getHeight() + 20);
+    close_options->hide();
+    close_options->deactivate();
+    
+    _1x_speed->check();
+    _1x_speed->hide();
+
+    // Statistics counters
+    fps_counter = DynamicText::newDynamicText("00", Assets::DYNAMICTEXT_FONT_NAME, 20, {0xff, 0xff, 0x0, 0xff});
+    fps_counter->setRelativeX(Assets::TABLE_WIDTH - fps_counter->getWidth() - 10);
+    fps_counter->setRelativeY(10);
+    fps_counter->hide();
+    
+    query_label = SolidText::newSolidText("Comparacoes por frame:");
+    query_label->setRelativeX(Assets::WINDOW_WIDTH / 2 - query_label->getWidth() / 2);
+    query_label->hide();
+
+    query_counter = DynamicText::newDynamicText("000");
+    query_counter->setParent(query_label);
+    query_counter->setRelativeX(query_label->getWidth() / 2 - query_counter->getWidth() / 2);
+    query_counter->setRelativeY(query_label->getHeight() + 5);
+    query_counter->hide();
+
+    quit_button = Button::newButton("Sair");
+    quit_button->setClickReaction(RunningManager::FinishProgramExecution);
+    quit_button->setRelativeX(Assets::WINDOW_WIDTH / 2 - quit_button->getWidth() - 5);
+    quit_button->setRelativeY(Assets::WINDOW_HEIGHT - quit_button->getHeight() - 10);
+}
+
+void RunningManager::StartSimulation()
+{
+    simulation_started = true;
+    start_button->hide();
+    start_button->deactivate();
+
+    menu_background->hide();
+    table_background->show();
+    top_border->show();
+
+    open_options->show();
+    open_options->activate();
+
+    for (auto ball : balls)
+        ball->show();
+
+    fps_counter->show();
+    query_counter->show();
+    query_label->show();
+}
+
+void RunningManager::ApplyBallsPhysics()
+{
+    if (!simulation_started)
+        return;
+
+    if (RunningManager::EfficientAlgorithmIsEnabled())
+        ColDetect::EfficientCollisionDetection(balls, Assets::TABLE_WIDTH, Assets::TABLE_HEIGHT);
+    else
+        ColDetect::NaiveCollisionDetection(balls);
+}
+
+void RunningManager::UpdateStatisticCounters()
+{
+    if (simulation_started) {
+        fps_counter->setText(std::to_string(int32_t(RunningManager::MeanFramesPerSecond())));
+        query_counter->setText(std::to_string(int32_t(RunningManager::MeanOperationsPerFrame())));
+    }
+}
+
+void RunningManager::OpenSimulationOptions()
+{
+    options_background->show();
+    options_label->show();
+    options_icon->show();
+
+    collisions_options_label->show();
+    speed_options_label->show();
+    _025x_speed->show();
+    _025x_speed->activate();
+
+    _1x_speed->show();
+    _1x_speed->activate();
+
+    _2x_speed->show();
+    _2x_speed->activate();
+
+    physx_checkbox->show();
+    physx_checkbox->activate();
+
+    quad_tree_checkbox->show();
+    quad_tree_checkbox->activate();
+
+    close_options->show();
+    close_options->activate();
+
+    query_counter->hide();
+    query_label->hide();
+}
+
+void RunningManager::CloseSimulationOptions()
+{
+    options_background->hide();
+    options_label->hide();
+    options_icon->hide();
+
+    collisions_options_label->hide();
+    speed_options_label->hide();
+    _025x_speed->hide();
+    _025x_speed->deactivate();
+
+    _1x_speed->hide();
+    _1x_speed->deactivate();
+
+    _2x_speed->hide();
+    _2x_speed->deactivate();
+
+    physx_checkbox->hide();
+    physx_checkbox->deactivate();
+
+    quad_tree_checkbox->hide();
+    quad_tree_checkbox->deactivate();
+
+    close_options->hide();
+    close_options->deactivate();
+
+    query_counter->show();
+    query_label->show();
+}
+
+void RunningManager::Set025xSpeed(bool check)
+{
+    if (check) {
+        physics_timer.setTimeScale(0.25);
+        _1x_speed->uncheck();
+        _2x_speed->uncheck();
+    }
+    else if (!_1x_speed->isChecked() && !_2x_speed->isChecked())
+        _1x_speed->check();
+}
+
+void RunningManager::Set1xSpeed(bool check)
+{
+    if (check) {
+        physics_timer.setTimeScale(1.0);
+        _025x_speed->uncheck();
+        _2x_speed->uncheck();
+    }
+    else if (!_025x_speed->isChecked() && !_2x_speed->isChecked())
+        _1x_speed->check();
+}
+
+void RunningManager::Set2xSpeed(bool check)
+{
+    if (check) {
+        physics_timer.setTimeScale(2.0);
+        _025x_speed->uncheck();
+        _1x_speed->uncheck();
+    }
+    else if (!_025x_speed->isChecked() && !_1x_speed->isChecked())
+        _1x_speed->check();
 }

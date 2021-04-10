@@ -14,6 +14,8 @@ namespace Assets
     {
         a = !a;
     }
+    // Main menu assets
+    const std::string   MAIN_MENU_BACKGROUND = "main_menu_background.png";
 
     // Button assets
     const std::string   BUTTON_FONT_NAME = "arial.ttf",
@@ -67,6 +69,14 @@ namespace Assets
     const std::string   SOLIDTEXT_FONT_NAME = "arial.ttf";
     const uint8_t       SOLIDTEXT_FONT_SIZE = 14;
     const SDL_Color     SOLIDTEXT_FONT_COLOR = {0x1f, 0x1f, 0x1f, 0xff};
+
+    // Options UI assets
+    const std::string   OPTIONS_BACKGROUND_NAME = "options_background_name.png",
+                        OPTIONS_ICON_NAME = "options_icon_name.png";
+    const uint16_t      OPTIONS_WIDTH = 480,
+                        OPTIONS_HEIGHT = 480;
+    const uint16_t      OPTIONS_ICON_WIDTH = 60,
+                        OPTIONS_ICON_HEIGHT = 60;
 }
 
 #endif

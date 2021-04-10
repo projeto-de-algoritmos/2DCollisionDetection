@@ -9,13 +9,16 @@
 #include "SolidImage.hpp"
 #include "SolidText.hpp"
 #include "VisualComponent.hpp"
-//#include "Ball.hpp"
+#include "Ball.hpp"
 #include "Timer.hpp"
 #include "Assets.hpp"
+#include "Checkbox.hpp"
+#include "DynamicText.hpp"
 
 #include <SDL2/SDL.h>
 #include <cmath>
 #include <cstdint>
+#include <vector>
 
 namespace RunningManager
 {
@@ -56,6 +59,51 @@ namespace RunningManager
     void IncrementOperationsPerfomed();
     double_t MeanOperationsPerFrame();
     double_t MeanFramesPerSecond();
+
+    // Physics
+    void UpdateBallsPosition();
+
+    // -----------------------------------------------------------
+    // UI ELEMENTS
+    static bool simulation_started = false;
+
+    static Button * start_button;
+    static Button * quit_button;
+    static Button * open_options;
+    static Button * close_options;
+ 
+    static SolidImage * menu_background;
+    static SolidImage * table_background;
+    static SolidImage * top_border;
+    static SolidImage * options_background;
+    static SolidImage * options_icon;
+
+    static std::vector<Ball *> balls;
+
+    static Checkbox * physx_checkbox;
+    static Checkbox * quad_tree_checkbox;
+    static Checkbox * _2x_speed;
+    static Checkbox * _1x_speed;
+    static Checkbox * _025x_speed;
+
+    static DynamicText * fps_counter;
+    static DynamicText * query_counter;
+
+    static SolidText * query_label;
+    static SolidText * options_label;
+    static SolidText * collisions_options_label;
+    static SolidText * speed_options_label;
+
+    void InitializeUIElments();
+    void StartSimulation();
+    void ApplyBallsPhysics();
+    void UpdateStatisticCounters();
+    void OpenSimulationOptions();
+    void CloseSimulationOptions();
+
+    static void Set025xSpeed(bool a);
+    static void Set1xSpeed(bool a);
+    static void Set2xSpeed(bool a);
 }
 
 #endif

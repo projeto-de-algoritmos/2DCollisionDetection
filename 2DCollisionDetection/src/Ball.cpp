@@ -118,6 +118,17 @@ void Ball::setVelocity(const Vector2D & velocity) noexcept
     _velocity = velocity;
 }
 
+void Ball::hide()
+{
+    _ball_highlight->hide();
+    _ball_texture->hide();
+}
+
+void Ball::show()
+{
+    _ball_texture->show();
+}
+
 void Ball::turnOnBallHighlight()
 {
     _ball_highlight->show();

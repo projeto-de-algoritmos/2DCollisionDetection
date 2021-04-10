@@ -56,6 +56,66 @@ void Checkbox::setCheckReaction(std::function<void(bool)> check_reaction)
     _check_reaction = check_reaction;
 }
 
+bool Checkbox::isChecked() const noexcept
+{
+    return _is_checked;
+}
+
+void Checkbox::check() noexcept
+{
+    if (isChecked())
+        return;
+
+    _is_checked = true;
+
+    _checked_texture->show();
+    _unchecked_texture->hide();
+    _unchecked_highlight->hide();
+
+    _check_reaction(true);
+}
+
+void Checkbox::uncheck() noexcept
+{
+    if (!isChecked())
+        return;
+
+    _is_checked = false;
+
+    _checked_highlight->hide();
+    _checked_texture->hide();
+    _unchecked_texture->show();
+
+    _check_reaction(false);
+}
+
+void Checkbox::hide()
+{
+    VisualComponent::hide();
+    _checked_texture->hide();
+    _checked_highlight->hide();
+    _unchecked_highlight->hide();
+    _unchecked_texture->hide();
+    _label->hide();
+}
+
+void Checkbox::show()
+{
+    if (isChecked()) {
+        _checked_texture->show();
+        _label->show();
+        _checked_highlight->hide();
+        _unchecked_highlight->hide();
+        _unchecked_texture->hide();
+    } else {
+        _checked_texture->hide();
+        _label->show();
+        _checked_highlight->hide();
+        _unchecked_highlight->hide();
+        _unchecked_texture->show();
+    }
+}
+
 Checkbox::Checkbox(uint16_t width_height):
 InteractiveComponent(width_height, width_height)
 {

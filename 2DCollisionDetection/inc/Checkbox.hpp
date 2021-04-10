@@ -31,6 +31,9 @@ public:
     void check() noexcept;
     void uncheck() noexcept;
 
+    void hide();
+    void show();
+
 private:
     Checkbox(uint16_t width_height = 0);
     Checkbox(Checkbox &);

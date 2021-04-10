@@ -27,6 +27,9 @@ public:
     void setWidth(uint16_t width);
     void setHeight(uint16_t height);
 
+    void hide();
+    void show();
+
 private:
     Button();
     Button(const Button & cpy);

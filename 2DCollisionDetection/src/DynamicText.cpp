@@ -65,6 +65,18 @@ uint16_t DynamicText::getHeight() const noexcept
     return total_height;
 }
 
+void DynamicText::hide()
+{
+    for (int32_t i = 0; i < (int32_t) _text.size(); i++)
+        _chars[i]->hide();
+}
+
+void DynamicText::show()
+{
+    for (int32_t i = 0; i < (int32_t) _text.size(); i++)
+        _chars[i]->show();
+}
+
 DynamicText::DynamicText(const std::string & font_name, uint16_t font_size, const SDL_Color & font_color):
 VisualComponent(0,0),
 _font_color(font_color),
