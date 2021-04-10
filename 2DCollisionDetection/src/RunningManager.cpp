@@ -131,15 +131,24 @@ double_t RunningManager::MeanFramesPerSecond()
 void RunningManager::UpdateBallsPosition()
 {
     for (auto ball : balls) {
+        if (friction_enabled)
+            ball->updateVelocity(RunningManager::PhysicsDeltaTime(), friction_amount);
+
         ball->updateBallPosition(RunningManager::PhysicsDeltaTime());
         ball->turnOffBallHighlight();
     }
     RunningManager::ResetPhysicsTimer();
 }
 
+void RunningManager::SetFriction(bool enable)
+{
+    friction_enabled = enable;
+}
+
 void RunningManager::InitializeUIElments()
 {
     menu_background = SolidImage::newSolidImage(Assets::MAIN_MENU_BACKGROUND, Assets::WINDOW_WIDTH, Assets::WINDOW_HEIGHT);
+
     
     start_button = Button::newButton("Iniciar");
     start_button->setClickReaction(StartSimulation);
@@ -186,16 +195,16 @@ void RunningManager::InitializeUIElments()
     open_options->hide();
     open_options->deactivate();
 
-    collisions_options_label = SolidText::newSolidText("Colisao:");
+    collisions_options_label = SolidText::newSolidText("Fisica");
     collisions_options_label->setParent(options_icon);
     collisions_options_label->setRelativeX(0);
-    collisions_options_label->setRelativeY(options_icon->getHeight() + 3);
+    collisions_options_label->setRelativeY(options_icon->getHeight() + 5);
     collisions_options_label->hide();
 
-    physx_checkbox = Checkbox::newCheckbox("Habilitar Fisica");
+    physx_checkbox = Checkbox::newCheckbox("Habilitar Colisao");
     physx_checkbox->setParent(collisions_options_label);
     physx_checkbox->setRelativeX(0);
-    physx_checkbox->setRelativeY(collisions_options_label->getHeight() + 3);
+    physx_checkbox->setRelativeY(collisions_options_label->getHeight() + 1);
     physx_checkbox->setCheckReaction(RunningManager::SetPhysics);
     physx_checkbox->hide();
     physx_checkbox->deactivate();
@@ -203,21 +212,29 @@ void RunningManager::InitializeUIElments()
     quad_tree_checkbox = Checkbox::newCheckbox("Habilitar Quad-Tree");
     quad_tree_checkbox->setParent(physx_checkbox);
     quad_tree_checkbox->setRelativeX(0);
-    quad_tree_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 3);
+    quad_tree_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 1);
     quad_tree_checkbox->setCheckReaction(RunningManager::SetEfficientAlgorithm);
     quad_tree_checkbox->hide();
     quad_tree_checkbox->deactivate();
 
+    friction_checkbox = Checkbox::newCheckbox("Habilitar Atrito");
+    friction_checkbox->setParent(quad_tree_checkbox);
+    friction_checkbox->setRelativeX(0);
+    friction_checkbox->setRelativeY(quad_tree_checkbox->getHeight() + 1);
+    friction_checkbox->setCheckReaction(RunningManager::SetFriction);
+    friction_checkbox->hide();
+    friction_checkbox->deactivate();
+
     speed_options_label = SolidText::newSolidText("Velocidade");
-    speed_options_label->setParent(quad_tree_checkbox);
+    speed_options_label->setParent(friction_checkbox);
     speed_options_label->setRelativeX(0);
-    speed_options_label->setRelativeY(quad_tree_checkbox->getHeight() + 10);
+    speed_options_label->setRelativeY(friction_checkbox->getHeight() + 10);
     speed_options_label->hide();
 
     _025x_speed = Checkbox::newCheckbox("0.25x");
     _025x_speed->setParent(speed_options_label);
     _025x_speed->setRelativeX(0);
-    _025x_speed->setRelativeY(speed_options_label->getHeight() + 3);
+    _025x_speed->setRelativeY(speed_options_label->getHeight() + 1);
     _025x_speed->hide();
     _025x_speed->deactivate();
     _025x_speed->setCheckReaction(RunningManager::Set025xSpeed);
@@ -225,7 +242,7 @@ void RunningManager::InitializeUIElments()
     _1x_speed = Checkbox::newCheckbox("1.0x");
     _1x_speed->setParent(_025x_speed);
     _1x_speed->setRelativeX(0);
-    _1x_speed->setRelativeY(_025x_speed->getHeight() + 3);
+    _1x_speed->setRelativeY(_025x_speed->getHeight() + 1);
     _1x_speed->hide();
     _1x_speed->deactivate();
     _1x_speed->setCheckReaction(RunningManager::Set1xSpeed);
@@ -233,16 +250,41 @@ void RunningManager::InitializeUIElments()
     _2x_speed = Checkbox::newCheckbox("2.0x");
     _2x_speed->setParent(_1x_speed);
     _2x_speed->setRelativeX(0);
-    _2x_speed->setRelativeY(_1x_speed->getHeight() + 3);
+    _2x_speed->setRelativeY(_1x_speed->getHeight() + 1);
     _2x_speed->hide();
     _2x_speed->deactivate();
     _2x_speed->setCheckReaction(RunningManager::Set2xSpeed);
 
+    force_field_label = SolidText::newSolidText("Campo de Forca");
+    force_field_label->setParent(_2x_speed);
+    force_field_label->setRelativeX(0);
+    force_field_label->setRelativeY(_2x_speed->getHeight() + 10);
+    force_field_label->hide();
+
+    push_force_checkbox = Checkbox::newCheckbox("Atrair bolas ao pressionar e arrastar");
+    push_force_checkbox->setParent(force_field_label);
+    push_force_checkbox->setRelativeX(0);
+    push_force_checkbox->setRelativeY(force_field_label->getHeight()+1);
+    push_force_checkbox->hide();
+    push_force_checkbox->setCheckReaction(RunningManager::SetForceFieldPush);
+
+    pull_force_checkbox = Checkbox::newCheckbox("Repelir bolas ao pressionar e arrastar");
+    pull_force_checkbox->setParent(push_force_checkbox);
+    pull_force_checkbox->setRelativeX(0);
+    pull_force_checkbox->setRelativeY(push_force_checkbox->getHeight()+1);
+    pull_force_checkbox->hide();
+    pull_force_checkbox->deactivate();
+    pull_force_checkbox->setCheckReaction(RunningManager::SetForceFieldPull);
+
+    push_force_checkbox->check();
+    push_force_checkbox->deactivate();
+    push_force_checkbox->hide();
+
     close_options = Button::newButton("Fechar");
     close_options->setClickReaction(RunningManager::CloseSimulationOptions);
-    close_options->setParent(_2x_speed);
+    close_options->setParent(pull_force_checkbox);
     close_options->setGlobalX(Assets::WINDOW_WIDTH / 2 - close_options->getWidth() / 2);
-    close_options->setRelativeY(_2x_speed->getHeight() + 20);
+    close_options->setRelativeY(pull_force_checkbox->getHeight() + 5);
     close_options->hide();
     close_options->deactivate();
     
@@ -269,6 +311,10 @@ void RunningManager::InitializeUIElments()
     quit_button->setClickReaction(RunningManager::FinishProgramExecution);
     quit_button->setRelativeX(Assets::WINDOW_WIDTH / 2 - quit_button->getWidth() - 5);
     quit_button->setRelativeY(Assets::WINDOW_HEIGHT - quit_button->getHeight() - 10);
+
+    force_field = ForceField::newForceField(Assets::TABLE_WIDTH, Assets::TABLE_HEIGHT, 15);
+    force_field->deactivate();
+    force_field->hide();
 }
 
 void RunningManager::StartSimulation()
@@ -290,6 +336,8 @@ void RunningManager::StartSimulation()
     fps_counter->show();
     query_counter->show();
     query_label->show();
+
+    force_field->activate();
 }
 
 void RunningManager::ApplyBallsPhysics()
@@ -334,6 +382,17 @@ void RunningManager::OpenSimulationOptions()
     quad_tree_checkbox->show();
     quad_tree_checkbox->activate();
 
+    friction_checkbox->show();
+    friction_checkbox->activate();
+
+    force_field_label->show();
+
+    push_force_checkbox->show();
+    push_force_checkbox->activate();
+
+    pull_force_checkbox->show();
+    pull_force_checkbox->activate();
+
     close_options->show();
     close_options->activate();
 
@@ -363,6 +422,17 @@ void RunningManager::CloseSimulationOptions()
 
     quad_tree_checkbox->hide();
     quad_tree_checkbox->deactivate();
+
+    friction_checkbox->hide();
+    friction_checkbox->deactivate();
+
+    force_field_label->hide();
+    
+    push_force_checkbox->hide();
+    push_force_checkbox->deactivate();
+
+    pull_force_checkbox->hide();
+    pull_force_checkbox->deactivate();
 
     close_options->hide();
     close_options->deactivate();
@@ -402,4 +472,66 @@ void RunningManager::Set2xSpeed(bool check)
     }
     else if (!_025x_speed->isChecked() && !_1x_speed->isChecked())
         _1x_speed->check();
+}
+
+void RunningManager::ApplyForceField(const Vector2D & center, double_t mag)
+{
+    for (auto ball : balls) {
+        Vector2D force(ball->getXCoordinate() - center.x(), ball->getYCoordinate() - center.y());
+        if (push_force)
+            force = force * (-mag / force.magnitude());
+        else
+            force = force * (mag / force.magnitude());
+        ball->setVelocity(ball->getVelocity() + force);
+    }
+}
+
+void RunningManager::SetForceFieldPush(bool enable)
+{
+    if (enable) {
+        push_force = true;
+        pull_force_checkbox->uncheck();
+    }
+    else if (!pull_force_checkbox->isChecked())
+        push_force_checkbox->check();
+}
+
+void RunningManager::SetForceFieldPull(bool enable)
+{
+    if (enable) {
+        push_force = false;
+        push_force_checkbox->uncheck();
+    }
+    else if (!push_force_checkbox->isChecked())
+        pull_force_checkbox->check();
+}
+
+RunningManager::ForceField * RunningManager::ForceField::newForceField(uint16_t width, uint16_t height, double_t force_mag)
+{
+    ForceField * ff = new ForceField(width, height);
+    ff->_force_mag = force_mag;
+
+    return ff;
+}
+
+RunningManager::ForceField::ForceField(uint16_t width, uint16_t height):
+InteractiveComponent(width, height)
+{
+
+}
+
+RunningManager::ForceField::ForceField(RunningManager::ForceField & ff):
+InteractiveComponent(0,0)
+{
+
+}
+
+RunningManager::ForceField::~ForceField()
+{
+
+}
+
+void RunningManager::ForceField::reactToDragging(const SDL_Point & cc)
+{
+    ApplyForceField(Vector2D(cc.x, cc.y), _force_mag);
 }

@@ -49,6 +49,8 @@ public:
     void turnOffBallHighlight();
     
     void updateBallPosition(double_t frame_time);
+
+    void updateVelocity(double_t frame_time, double_t friction);
     
     static Ball * newBall(double_t x_coordinate,
                           double_t y_coordinate,

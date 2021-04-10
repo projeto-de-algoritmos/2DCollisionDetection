@@ -166,6 +166,18 @@ void Ball::updateBallPosition(double_t frame_time)
     _ball_texture->setGlobalY(_center.y() - _ball_radius);
 }
 
+void Ball::updateVelocity(double_t frame_time, double_t friction)
+{
+    double_t neg_mag = frame_time * friction;
+    if (neg_mag >= _velocity.magnitude()) {
+        _velocity.x(0);
+        _velocity.y(0);
+    }
+    else {
+        _velocity = _velocity + _velocity * (-neg_mag / _velocity.magnitude());
+    }
+}
+
 Ball * Ball::newBall(double_t x_coordinate,
                      double_t y_coordinate,
                      double_t x_velocity,

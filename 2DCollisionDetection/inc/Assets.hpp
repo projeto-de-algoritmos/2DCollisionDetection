@@ -50,8 +50,8 @@ namespace Assets
     const std::string   TABLE_TEXTURE_NAME = "table_texture.png";
 
     // Checkbox assets
-    const uint16_t                  CHECKBOX_WIDTH_HEIGHT = 35,
-                                    CHECKBOX_FONT_SIZE = 12;
+    const uint16_t                  CHECKBOX_WIDTH_HEIGHT = 28,
+                                    CHECKBOX_FONT_SIZE = 11;
     const std::string               CHECKBOX_CHECKED_TEXTURE = "checkbox_checked_texture.png",
                                     CHECKBOX_CHECKED_HIGHLIGHT = "checkbox_checked_hightlight.png",
                                     CHECKBOX_UNCHECKED_TEXTURE = "checkbox_unchecked_texture.png",

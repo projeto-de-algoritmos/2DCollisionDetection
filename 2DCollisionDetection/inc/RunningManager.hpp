@@ -14,6 +14,7 @@
 #include "Assets.hpp"
 #include "Checkbox.hpp"
 #include "DynamicText.hpp"
+#include "Vector2D.hpp"
 
 #include <SDL2/SDL.h>
 #include <cmath>
@@ -61,8 +62,11 @@ namespace RunningManager
     double_t MeanFramesPerSecond();
 
     // Physics
-    void UpdateBallsPosition();
+    static bool friction_enabled = false;
+    static double_t friction_amount = 25;
 
+    void UpdateBallsPosition();
+    void SetFriction(bool enable);
     // -----------------------------------------------------------
     // UI ELEMENTS
     static bool simulation_started = false;
@@ -82,9 +86,12 @@ namespace RunningManager
 
     static Checkbox * physx_checkbox;
     static Checkbox * quad_tree_checkbox;
+    static Checkbox * friction_checkbox;
     static Checkbox * _2x_speed;
     static Checkbox * _1x_speed;
     static Checkbox * _025x_speed;
+    static Checkbox * push_force_checkbox;
+    static Checkbox * pull_force_checkbox;
 
     static DynamicText * fps_counter;
     static DynamicText * query_counter;
@@ -93,6 +100,7 @@ namespace RunningManager
     static SolidText * options_label;
     static SolidText * collisions_options_label;
     static SolidText * speed_options_label;
+    static SolidText * force_field_label;
 
     void InitializeUIElments();
     void StartSimulation();
@@ -104,6 +112,29 @@ namespace RunningManager
     static void Set025xSpeed(bool a);
     static void Set1xSpeed(bool a);
     static void Set2xSpeed(bool a);
+
+    static bool push_force = true;
+    static void ApplyForceField(const Vector2D & center, double_t mag);
+    void SetForceFieldPush(bool enable);
+    void SetForceFieldPull(bool enable);
+
+    class ForceField : public InteractiveComponent
+    {
+    public:
+        static ForceField * newForceField(uint16_t width, uint16_t height, double_t force_mag);
+
+    private:
+        ForceField(uint16_t width = 0, uint16_t height = 0);
+        ForceField(ForceField &);
+        virtual ~ForceField();
+
+        double _force_mag;
+    
+    protected:
+        virtual void reactToDragging(const SDL_Point & cursor_coordinates) override;
+    };
+
+    static ForceField * force_field;
 }
 
 #endif
