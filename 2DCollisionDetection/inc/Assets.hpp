@@ -28,7 +28,7 @@ namespace Assets
                         BUTTON_HEIGHT = 42;
 
     // Window assets
-    const std::string   WINDOW_TITLE = "2DCollisionDetection",
+    const std::string   WINDOW_TITLE = "2D Collision Detection",
                         WINDOW_ICON_IMAGE_NAME = "assets/balls_logo.png";
     const uint16_t      WINDOW_WIDTH = 720,
                         WINDOW_HEIGHT = 480;
