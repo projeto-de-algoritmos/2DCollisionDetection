@@ -18,10 +18,12 @@ Button * Button::newButton( const std::string & button_text,
     Button * button = new Button(width, height, AssetsManager::getInstance()->getTexture(background_image_name));
     SolidText * text = SolidText::newSolidText(button_text, font_name, font_size, font_color);
 
-    text->setParent(button);
-    text->setRelativeX((button->getWidth() / 2) - (text->getWidth() / 2));
-    text->setRelativeY((button->getHeight() / 2) - (text->getHeight() / 2));
-    button->_text = text;
+    SolidImage * highlight = SolidImage::newSolidImage(Assets::BUTTON_HIGHLIGHT_NAME, width, height);
+    highlight->setParent(button);
+    highlight->setRelativeX(0);
+    highlight->setRelativeY(0);
+    highlight->hide();
+    button->_highlight = highlight;
 
     SolidImage * shade = SolidImage::newSolidImage(Assets::BUTTON_SHADE_NAME, width, height);
     shade->setParent(button);
@@ -29,6 +31,11 @@ Button * Button::newButton( const std::string & button_text,
     shade->setRelativeY(0);
     shade->hide();
     button->_shade = shade;
+    
+    text->setParent(button);
+    text->setRelativeX((button->getWidth() / 2) - (text->getWidth() / 2));
+    text->setRelativeY((button->getHeight() / 2) - (text->getHeight() / 2));
+    button->_text = text;
 
     button->tie();
 
@@ -52,6 +59,22 @@ void Button::setHeight(uint16_t height)
     VisualComponent::setHeight(height);
     _shade->setHeight(height);
     _text->setRelativeY((height / 2) - (_text->getHeight() / 2));
+}
+
+void Button::hide()
+{
+    VisualComponent::hide();
+    _highlight->hide();
+    _shade->hide();
+    _text->hide();
+}
+
+void Button::show()
+{
+    VisualComponent::show();
+    _highlight->hide();
+    _shade->hide();
+    _text->show();
 }
 
 Button::Button(uint16_t width, uint16_t height, SDL_Texture * texture):
@@ -78,4 +101,14 @@ void Button::reactToReleasing(const SDL_Point & cursor_coordinates)
 void Button::reactToClick(const SDL_Point & cursor_coordinates)
 {
     _call_back_function();
+}
+
+void Button::reactToCursorOverlappingComponent(const SDL_Point & cursor_coordinates)
+{
+    _highlight->show();
+}
+
+void Button::reactToCursorStopedOverlappingComponent(const SDL_Point & cursor_coordinates)
+{
+    _highlight->hide();
 }
