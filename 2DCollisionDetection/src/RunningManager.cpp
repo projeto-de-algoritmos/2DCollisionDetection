@@ -312,7 +312,7 @@ void RunningManager::InitializeUIElments()
     quit_button->setRelativeX(Assets::WINDOW_WIDTH / 2 - quit_button->getWidth() - 5);
     quit_button->setRelativeY(Assets::WINDOW_HEIGHT - quit_button->getHeight() - 10);
 
-    force_field = ForceField::newForceField(Assets::TABLE_WIDTH, Assets::TABLE_HEIGHT, 15);
+    force_field = ForceField::newForceField(Assets::TABLE_WIDTH, Assets::TABLE_HEIGHT, Assets::FORCEFIELD_INTENSITY);
     force_field->deactivate();
     force_field->hide();
 }
@@ -532,6 +532,11 @@ RunningManager::ForceField::~ForceField()
 }
 
 void RunningManager::ForceField::reactToDragging(const SDL_Point & cc)
+{
+    ApplyForceField(Vector2D(cc.x, cc.y), _force_mag);
+}
+
+void RunningManager::ForceField::reactToPressing(const SDL_Point & cc)
 {
     ApplyForceField(Vector2D(cc.x, cc.y), _force_mag);
 }

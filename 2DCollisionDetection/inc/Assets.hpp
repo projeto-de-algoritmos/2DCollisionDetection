@@ -77,6 +77,9 @@ namespace Assets
                         OPTIONS_HEIGHT = 480;
     const uint16_t      OPTIONS_ICON_WIDTH = 60,
                         OPTIONS_ICON_HEIGHT = 60;
+
+    // ForceFIELD macros
+    const double        FORCEFIELD_INTENSITY = 10;
 }
 
 #endif

@@ -132,6 +132,7 @@ namespace RunningManager
     
     protected:
         virtual void reactToDragging(const SDL_Point & cursor_coordinates) override;
+        virtual void reactToPressing(const SDL_Point & cursor_coordinates) override;
     };
 
     static ForceField * force_field;
