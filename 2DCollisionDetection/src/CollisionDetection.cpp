@@ -1,14 +1,32 @@
 #include "CollisionDetection.hpp"
 #include "RunningManager.hpp"
+#include "QuadTree.hpp"
 
 void ColDetect::EfficientCollisionDetection(const std::vector<Ball *> & balls, int32_t table_width, int32_t table_height)
 {
-    // TODO
-    // Detectar colisões entre as bolas presentes no vetor balls usando o algormto quad-tree
-    // Se duas bolas estiver se colidindo, ativar o brilho de ambas: ball->turnOnBallHighlight()
-    // e se a fisica estiver ativada, aplicar entre as duas bolas
-    // Toda vez q for necessario fazer uma query sobre uma bola, sinalizar ao gerente de programa
-    // que esta query foi realizada com RunningManager::IncrementOperationsPerformed()
+    QuadTree tree = QuadTree(1, Rectangle(0, 0, table_width, table_height));
+
+    for(auto ball : balls)
+        tree.insert(ball);
+
+
+    std::vector<Ball*> quadrantBalls;
+
+    for(auto ball : balls){
+        quadrantBalls = tree.retrieve(ball);
+
+        for(auto qball : quadrantBalls){
+            if(ball == qball)
+                continue;
+            if(Ball::ballsAreColliding(ball, qball)){
+                ball->turnOnBallHighlight();
+                qball->turnOnBallHighlight();
+
+                if(RunningManager::PhysicsIsEnabled())
+                    Ball::collideBalls(ball, qball);
+            }
+        }
+    }
 }
 
 void ColDetect::NaiveCollisionDetection(const std::vector<Ball *> & balls) {
