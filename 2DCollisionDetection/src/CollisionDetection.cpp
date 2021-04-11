@@ -6,8 +6,10 @@ void ColDetect::EfficientCollisionDetection(const std::vector<Ball *> & balls, i
 {
     QuadTree tree = QuadTree(1, Rectangle(0, 0, table_width, table_height));
 
-    for(auto ball : balls)
+    for(auto ball : balls){
+        RunningManager::IncrementOperationsPerfomed();
         tree.insert(ball);
+    }
 
 
     std::vector<Ball*> quadrantBalls;
@@ -16,6 +18,7 @@ void ColDetect::EfficientCollisionDetection(const std::vector<Ball *> & balls, i
         quadrantBalls = tree.retrieve(ball);
 
         for(auto qball : quadrantBalls){
+            RunningManager::IncrementOperationsPerfomed();
             if(ball == qball)
                 continue;
             if(Ball::ballsAreColliding(ball, qball)){
