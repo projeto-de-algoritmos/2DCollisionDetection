@@ -7,6 +7,7 @@ public:
     Vector2D(double x = 0.0, double y = 0.0);
     Vector2D(const Vector2D & v);
     Vector2D(const Vector2D && v);
+    Vector2D(const Vector2D & origin, const Vector2D & arrow);
 
     double x() const noexcept;
     double y() const noexcept;
@@ -23,6 +24,9 @@ public:
 
     Vector2D operator+(const Vector2D & v) const noexcept;
     Vector2D operator+(const Vector2D && v) const noexcept;
+
+    Vector2D operator-(const Vector2D & v) const noexcept;
+    Vector2D operator-(const Vector2D && v) const noexcept;
 
 private:
     double _x;
