@@ -29,7 +29,7 @@ void Ball::makePerfectContactBetweenBalls(Ball * ball1, Ball * ball2)
 
     Vector2D cur_dist(ball1->getCenter(), ball2->getCenter());
     Vector2D tru_dist(cur_dist * ((ball1->getRadius() + ball2->getRadius()) / cur_dist.magnitude()));
-    Vector2D del_dist((tru_dist - cur_dist) * 0.7);
+    Vector2D del_dist((tru_dist - cur_dist) * 0.58);
     ball1->setCenter(ball1->getCenter() - del_dist);
     ball2->setCenter(ball2->getCenter() + del_dist);
 }
