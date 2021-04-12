@@ -1,3 +1,6 @@
+#ifndef _QUADTREE_HPP_
+#define _QUADTREE_HPP_
+
 #include <vector>
 #include <utility>
 
@@ -54,4 +57,4 @@ class QuadTree{
 
 };
 
-
+#endif
