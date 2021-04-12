@@ -8,8 +8,8 @@
 
 namespace ColDetect
 {
-    void EfficientCollisionDetection(const std::vector<Ball *> & balls, int32_t table_width, int32_t table_height);
-    void NaiveCollisionDetection(const std::vector<Ball *> & balls);
+        void EfficientCollisionDetection(const std::vector<Ball *> & balls, int32_t table_width, int32_t table_height);
+            void NaiveCollisionDetection(const std::vector<Ball *> & balls);
 }
 
 #endif
