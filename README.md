@@ -1,6 +1,6 @@
 # D&C_2DCollisionDetection
 
-**Número da Lista**: X<br>
+**Número da Lista**: 3<br>
 **Conteúdo da Disciplina**: Dividir e Conquistar<br>
 
 ## Alunos
@@ -28,16 +28,15 @@ Vale, entretanto, ressaltar que o projeto possui além do algoritmo de divisão 
 
 > Em caso de não portabilidade, entre em contato com a dupla!
 
-### Distribuições Linux Ubuntu ou Debian
+### Ubuntu ou Debian
 
 Para efetuar a instalação das dependências, execute os comandos:
-
 
 ```bash
 sudo apt-get install g++
 ```
 ```bash
-make
+sudo apt-get install make
 ```
 ```bash
 sudo apt-get install libsdl2-dev
@@ -51,9 +50,7 @@ sudo apt-get install libsdl2-ttf-dev
 
 ### Windows
 
-Infelizmente, o código deste projeto utiliza de cabeçalhos e esquemas de compilação que não são portáveis para Windows. Sendo assim, para a correta execução do código recomendamos a instalação do [WSL 1](https://docs.microsoft.com/pt-br/windows/wsl/install-win10), do [VcXsrv](https://sourceforge.net/projects/vcxsrv/) e do [Ubuntu 18.04](https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q?activetab=pivot:overviewtab) sobre o WSL1.
-
-Execute os mesmos passos citados para Ubuntu no bash instalado.
+Infelizmente, o código deste projeto utiliza de cabeçalhos e esquemas de compilação que não são portáveis para Windows. Sendo assim, para a correta execução do código recomendamos a instalação do [WSL 1](https://docs.microsoft.com/pt-br/windows/wsl/install-win10), do [VcXsrv](https://sourceforge.net/projects/vcxsrv/) e do [Ubuntu 18.04](https://www.microsoft.com/en-us/p/ubuntu-1804-lts/9n9tngvndl3q?activetab=pivot:overviewtab) sobre o WSL1. Feita a instalação desses componentes, execute dentro do bash do Ubuntu os mesmos passos listados para [Ubuntu ou Debian](#ubuntu-ou-debian).
 
 ### MacOS
 
@@ -77,14 +74,16 @@ brew install sdl2_ttf
 brew install sdl2_image
 ```
 
-## Uso 
+## Uso
+
+> Para usuários ***Windows*** com WSL1 e Ubuntu, será necessário executar previamente o VcXsrv no desktop do Windows e em seguida executar no bash do Ubuntu o seguinte comando:
+>
+> ```bash
+> export DISPLAY=:0
+> ```
+
 A execução da aplicação é simples e pode ser feita executando comando abaixo a partir do diretório 2DCollisionDetection.
 
 ```bash
 make && make run
 ```
-> Para usuários do Ubuntu no WSL1, será necessário executar o VcXsrv no Windows e executar no bash o seguinte comando:
->
-> ```bash
-> export DISPLAY=:0
-> ```
